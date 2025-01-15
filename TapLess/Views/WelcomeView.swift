@@ -74,10 +74,10 @@ struct WelcomeView_Previews: PreviewProvider {
         WelcomeView()
     }
 }
-
-struct DashboardView: View {
-    var body: some View {
-        Text("This is the dashboard view!")
-    }
-}
+//
+//struct DashboardView: View {
+//    var body: some View {
+//        Text("This is the dashboard view!")
+//    }
+//}
 

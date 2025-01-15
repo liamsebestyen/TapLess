@@ -11,6 +11,7 @@ import SwiftUI
 struct TapLessApp: App {
     var body: some Scene {
         WindowGroup {
+            WelcomeView()
             ContentView()
         }
     }

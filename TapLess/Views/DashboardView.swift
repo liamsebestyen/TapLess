@@ -9,7 +9,26 @@ import SwiftUI
 
 struct DashboardView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+TabView {
+    
+    Text("Home")
+    
+    .tabItem {
+        Label("Home", systemImage: "house")
+    }
+    
+    Text("Profile")
+    .tabItem {
+        
+        Label("Profile", systemImage: "person")
+    }
+    
+    Text("Customize")
+        .tabItem {
+            Label("Customize", systemImage: "sparkle.magnifyingglass" )
+        }
+    
+}
     }
 }
 

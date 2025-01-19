@@ -21,7 +21,7 @@ enum RestrictionType: String, Codable, Identifiable {
 
 struct RestrictionRule: Codable, Identifiable {
     var id = UUID()
-    var RestrictionType: RestrictionType
+    var restrictionType: RestrictionType
     var threshold: Int
     
     var waitTime: Int?
@@ -34,6 +34,6 @@ struct RestrictionRule: Codable, Identifiable {
 //Tests
 
 
-let rule1 = RestrictionRule(RestrictionType: .wait, threshold: 5, waitTime: 10)
-let rule2 = RestrictionRule(RestrictionType: .mathQuestion, threshold: 10, mathQuestion: "5 + 5", correctAnswer: 10)
+let rule1 = RestrictionRule(restrictionType: .wait, threshold: 5, waitTime: 10)
+let rule2 = RestrictionRule(restrictionType: .mathQuestion, threshold: 10, mathQuestion: "5 + 5", correctAnswer: 10)
 

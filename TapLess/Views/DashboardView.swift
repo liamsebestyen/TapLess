@@ -22,12 +22,12 @@ TabView {
         
         Label("Profile", systemImage: "person")
     }
-    
-    Text("Customize")
-        .tabItem {
+    Customize()
+    .tabItem {
             Label("Customize", systemImage: "sparkle.magnifyingglass" )
+            Customize()
         }
-    
+        
 }
     }
 }

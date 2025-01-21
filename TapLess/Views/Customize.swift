@@ -31,44 +31,48 @@ struct Customize: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .accentColor(Color.blue)
-               
+            
             
         }
         
         .sheet(isPresented: $showLevels){
-            
-            Text("Choose Restriction Type")
-            Form {
-                Section(header: Text("Type")) {
-                    Picker("Type", selection: $selectedType){
-                        ForEach(options, id: \.self) { option in
-                            Text(option).tag(option)
+            NavigationView {
+                
+                Form {
+                    Section(header: Text("Type")) {
+                        Picker("Type", selection: $selectedType){
+                            ForEach(options, id: \.self) { option in
+                                Text(option).tag(option)
+                            }
+                            
                         }
+                        .pickerStyle(.segmented)
                         
                     }
-                    .pickerStyle(.segmented)
                     
+                    Section(header: Text("Threshold")) {
+                        Stepper("Threshold: \(threshold)", value: $threshold, in: 0 ... 100)
+                    }
                 }
-                
-                
-            }
-            HStack {
-                Button("Cancel") {
-                    // Dismiss the sheet without saving
-                    showLevels = false
+           
+                .toolbar{
+                    ToolbarItem(placement: .cancellationAction){
+                        Button("Cancel"){
+                            showLevels = false
+                        }
+                    }
+                    ToolbarItem(placement: .confirmationAction){
+                        Button("Confirm"){
+                            showLevels = false
+                            showCustomize = true
+                            print("User Picked: \(selectedType)")
+                            
+                        }
+                    }
                 }
-                .foregroundColor(.red)
-                
-                Spacer()
-                
-                Button("Save") {
-                    print("User picked:", selectedType)
-                    showLevels = false
-                    showCustomize = true
-                }
-                .foregroundColor(.blue)
-            }
-            .padding()
+            }.navigationTitle("Choose Restriction")
+            
+
         }
         .sheet(isPresented: $showCustomize){
             Form {

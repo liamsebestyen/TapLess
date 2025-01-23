@@ -84,6 +84,9 @@ struct Customize: View {
         }
         
         .sheet(isPresented: $showLevels) {
+            ZStack {
+                backgroundGradient
+                
                 NavigationView {
                     ZStack {
                         backgroundGradient // Gradient background for the Form

@@ -29,6 +29,39 @@ struct Customize: View {
             backgroundGradient
             NavigationStack {
                 
+                Form {
+                    Section(header: Text("Type")) {
+                        Picker("Type", selection: $selectedType){
+                            ForEach(options, id: \.self) { option in
+                                Text(option).tag(option)
+                            }
+                            
+                        }
+                        .pickerStyle(.segmented)
+                        
+                    }
+                    
+                    Section(header: Text("Threshold")) {
+                        Stepper("Threshold: \(threshold)", value: $threshold, in: 0 ... 100)
+                    }
+                }
+           
+                .toolbar{
+                    ToolbarItem(placement: .cancellationAction){
+                        Button("Cancel"){
+                            showLevels = false
+                        }
+                    }
+                    ToolbarItem(placement: .confirmationAction){
+                        Button("Confirm"){
+                            showLevels = false
+                            showCustomize = true
+                            print("User Picked: \(selectedType)")
+                            
+                        }
+                    }
+                }
+            }.navigationTitle("Choose Restriction")
             
                     VStack(spacing: 40){
                         Text("Customize Restrictions")

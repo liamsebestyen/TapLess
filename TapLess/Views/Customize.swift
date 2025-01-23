@@ -4,7 +4,6 @@
 //
 //  Created by Liam Sebestyen on 2025-01-16.
 //
-
 import SwiftUI
 
 struct Customize: View {
@@ -14,176 +13,171 @@ struct Customize: View {
     @State private var selectedType: String = "None"
     @State private var timeWait: Int = 0
     @State private var difficultyMathQuestion: String = ""
-    @State private var times : [String] = ["5s", "10s", "20s", "30s", "1m","Other"]
+    @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m", "Other"]
     
-    private var options: [String] = ["None", "Time", "Math Question"]
-    private var questions: [String] = ["Easy", "Moderate","Hard", "Extreme", "Engineer"]
+    private let options: [String] = ["None", "Time", "Math Question"]
+    private let questions: [String] = ["Easy", "Moderate", "Hard", "Extreme", "Engineer"]
     
     private var backgroundGradient: some View {
-        LinearGradient(colors: [Color.blue.opacity(0.75), Color.purple.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+        LinearGradient(
+            colors: [Color.blue.opacity(0.75), Color.purple.opacity(0.8)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
+    }
+    
+    private var bubbles: some View {
+        Image(systemName: "bubbles.and.sparkles.fill")
+            .font(.system(size: 144, weight: .black))
+            .foregroundStyle(
+                MeshGradient(width: 2, height: 2, points: [
+                    [0, 0], [1, 0],
+                    [0, 1], [1, 1]
+                ], colors: [
+                    .indigo, .cyan,
+                    .purple, .pink
+                ])
+            )
     }
     
     var body: some View {
-        ZStack{
+        
+        ZStack {
             backgroundGradient
-            NavigationStack {
-                
-                Form {
-                    Section(header: Text("Type")) {
-                        Picker("Type", selection: $selectedType){
-                            ForEach(options, id: \.self) { option in
-                                Text(option).tag(option)
-                            }
-                            
-                        }
-                        .pickerStyle(.segmented)
-                        
-                    }
+                bubbles
+                VStack(spacing: 40) {
+                    Text("Restriction Set Up")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding(.top, 25)
                     
-                    Section(header: Text("Threshold")) {
-                        Stepper("Threshold: \(threshold)", value: $threshold, in: 0 ... 100)
-                    }
-                }
-           
-                .toolbar{
-                    ToolbarItem(placement: .cancellationAction){
-                        Button("Cancel"){
-                            showLevels = false
-                        }
-                    }
-                    ToolbarItem(placement: .confirmationAction){
-                        Button("Confirm"){
-                            showLevels = false
-                            showCustomize = true
-                            print("User Picked: \(selectedType)")
-                            
-                        }
-                    }
-                }
-            }.navigationTitle("Choose Restriction")
-            
-                    VStack(spacing: 40){
-                        Text("Customize Restrictions")
+                       
+                    Spacer()
+                    Text("You currently have no restrictions, add some?")
+                        .padding(.bottom, 100)
+                        .foregroundColor(.white.opacity(0.6))
+                        .fontWeight(.semibold)
+                        .italic()
+                    
+                    Button(action: {
+                        showLevels = true
+                    }) {
+                        Text("Customize")
                             .font(.title)
-                            .foregroundStyle(Color.white)
                             .fontWeight(.bold)
-                            .padding(.top, 25)
-                        
-                        Spacer()
-                        Button{
-                            showLevels = true
-                        } label: {
-                            Text("Customize")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(Color.white)
-                                .background(Color.blue)
-                                .cornerRadius(10)
-                        }.buttonStyle(.borderedProminent)
-                        
-                    }.background(Color.clear)
-                
-            }
-            .background(Color.clear)
-            .padding()
-            
-                .sheet(isPresented: $showLevels){
-                    NavigationView {
-                        
-                        Form {
-                            Section(header: Text("Type")) {
-                                Picker("Type", selection: $selectedType){
-                                    ForEach(options, id: \.self) { option in
-                                        Text(option).tag(option)
-                                    }
-                                    
-                                }
-                                .pickerStyle(.segmented)
-                                
-                            }
-                            
-                            Section(header: Text("Threshold")) {
-                                Stepper("Threshold: \(threshold)", value: $threshold, in: 0 ... 100)
-                            }
-                        }.scrollContentBackground(.hidden)
-                        .navigationTitle("Choose Restriction")
-                        .toolbar{
-                            ToolbarItem(placement: .cancellationAction){
-                                Button(action: { showLevels = false }){
-                                    Label("Cancel", systemImage: "xmark.circle")
-                                }
-                                .foregroundStyle(.red)
-                                
-                                
-                            }
-                            ToolbarItem(placement: .confirmationAction){
-                                Button(action: {
-                                    showLevels = false
-                                    showCustomize = true
-                                    print("User Picked: \(selectedType)")}){
-                                        
-                                        Label("Confirm", systemImage: "checkmark.circle")
-                                        
-                                    }.foregroundColor(.green)
-                            }
-                        }
-                        
-                    }.background(Color.clear)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.white)
+                            .background(backgroundGradient)
+                            .cornerRadius(10)
+                            .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
+                            .padding(.bottom, 25)
+                    }
                     
+        
                 }
+                .padding()
+                
             
-                .sheet(isPresented: $showCustomize){
-                    NavigationView {
-                        
-                        Form{
-                            if (selectedType == "Time") {
-                                Section(header: Text("Wait duration")) {
-                                    Picker("Select time to wait", selection: $timeWait){ ForEach(times , id: \.self){ time in Text(time).tag(time)
-                                    }
-                                        
+        }
+        
+        .sheet(isPresented: $showLevels) {
+                NavigationView {
+                    ZStack {
+                        backgroundGradient // Gradient background for the Form
+                        VStack(spacing: 25){
+                            Form {
+                                Section(header: Text("Type").foregroundColor(.white)) {
+                                    Picker("Type", selection: $selectedType) {
+                                        ForEach(options, id: \.self) { option in
+                                            Text(option).tag(option)
+                                        }
                                     }
                                     .pickerStyle(.segmented)
                                 }
                                 
-                            } else if (selectedType == "Math Question"){
-                                Section(header: Text("Select difficulty of a math question")) {
-                                    Picker("Difficulty", selection: $difficultyMathQuestion){
-                                        ForEach(questions, id: \.self) {
-                                            question in Text(question)
-                                        }
-                                    }
-                                    
+                                Section(header: Text("Threshold").foregroundColor(.white)) {
+                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
                                 }
                             }
-                        }.scrollContentBackground(.hidden)
-                        
-                        
-                        
-                        .toolbar{
-                            ToolbarItem(placement: .cancellationAction){
-                                Button("Cancel"){
-                                    showLevels = false
-                                    showCustomize = false
-                                }.buttonStyle(.borderedProminent)
+                            .scrollContentBackground(.hidden) // Ensures Form content uses a transparent background
+                            .background(Color.clear) // Removes Form's default background
+                        }
+                        .navigationTitle("Choose Restriction")
+                        .foregroundColor(.white)
+                        .foregroundStyle(Color.white)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button(action: { showLevels = false }) {
+                                    Label("Cancel", systemImage: "xmark.circle")
+                                }
+                                .tint(.red)
                             }
-                            ToolbarItem(placement: .confirmationAction){
-                                Button("Confirm"){
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button(action: {
                                     showLevels = false
-                                    showCustomize = false
-                                    print("User Picked: \(selectedType)")
-                                    
-                                }.buttonStyle(.borderedProminent)
+                                    showCustomize = true
+                                }) {
+                                    Label("Confirm", systemImage: "checkmark.circle")
+                                }
+                                .tint(.green)
+                            }
+                        }}
+                }
+                .background(Color.clear) // Removes NavigationView's default background
+            
+        }
+        .sheet(isPresented: $showCustomize) {
+            ZStack {
+                backgroundGradient
+                
+                NavigationView {
+                    ZStack {
+                        backgroundGradient
+                        
+                        Form {
+                            if selectedType == "Time" {
+                                Section(header: Text("Wait Duration").foregroundColor(.white)) {
+                                    Picker("Select Time", selection: $timeWait) {
+                                        ForEach(times, id: \.self) { time in
+                                            Text(time).tag(time)
+                                        }
+                                    }
+                                    .pickerStyle(.segmented)
+                                }
+                            } else if selectedType == "Math Question" {
+                                Section(header: Text("Math Difficulty").foregroundColor(.white)) {
+                                    Picker("Difficulty", selection: $difficultyMathQuestion) {
+                                        ForEach(questions, id: \.self) { question in
+                                            Text(question)
+                                        }
+                                    }
+                                }
                             }
                         }
-                        
-                        .navigationTitle("Customize Restrictions")
+                        .scrollContentBackground(.hidden)
+                        .background(Color.clear)
                     }
-                    .background(Color.clear)
-                    
+                    .navigationTitle("Customize Restrictions")
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                showCustomize = false
+                            }
+                            .tint(.red)
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Confirm") {
+                                showCustomize = false
+                            }
+                            .tint(.green)
+                        }
+                    }
                 }
+                .background(Color.clear)
+            }
         }
     }
 }

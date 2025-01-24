@@ -14,11 +14,17 @@ struct Customize: View {
     @State private var timeWait: Int = 0
     @State private var difficultyMathQuestion: String = ""
     @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m", "Other"]
+    @State private var tester: Double = 0.5
+
     
     private let options: [String] = ["None", "Time", "Math Question"]
     private let questions: [String] = ["Easy", "Moderate", "Hard", "Extreme", "Engineer"]
     
-    private var backgroundGradient: some View {
+    private var background : some View {
+        Color.black
+            .ignoresSafeArea()
+    }
+    private var purpleGradient: some View {
         LinearGradient(
             colors: [Color.blue.opacity(0.75), Color.purple.opacity(0.8)],
             startPoint: .topLeading,
@@ -44,7 +50,7 @@ struct Customize: View {
     var body: some View {
         
         ZStack {
-            backgroundGradient
+            background
             bubbles
             VStack(spacing: 40) {
                 Text("Restriction Set Up")
@@ -70,7 +76,7 @@ struct Customize: View {
                         .padding()
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
-                        .background(backgroundGradient)
+                        .background(purpleGradient)
                         .cornerRadius(10)
                         .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
                         .padding(.bottom, 25)
@@ -85,13 +91,13 @@ struct Customize: View {
         
         .sheet(isPresented: $showLevels) {
             ZStack {
-                backgroundGradient
+                purpleGradient
                 
                 NavigationView {
                     ZStack {
-                        backgroundGradient // Gradient background for the Form
-                        VStack(spacing: 25){
-                            Form {
+                        purpleGradient // Gradient background for the Form
+                        VStack(spacing: 10){
+                            VStack {
                                 Section(header: Text("Type").foregroundColor(.white)) {
                                     Picker("Type", selection: $selectedType) {
                                         ForEach(options, id: \.self) { option in
@@ -101,10 +107,22 @@ struct Customize: View {
                                     .pickerStyle(.segmented)
                                     .tint(.purple)
                                 }
+                                Spacer()
+                                Text("Threshold: \(Int(tester))")
+                                    .foregroundColor(.black)
+                                Slider(value: $tester, in: 0...25, step: 1 ){
+                                    Text("Current Value: \(tester)")
+                                } minimumValueLabel: {
+                                    Text("Min")
+                                } maximumValueLabel: {
+                                Text("Max")
+                                }.tint(.purple)
                                 
-                                Section(header: Text("Threshold").foregroundColor(.white)) {
-                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
+                                Spacer()
                                 }
+//                                Section(header: Text("Threshold").foregroundColor(.white)) {
+//                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
+//                                }
                             }
                             .scrollContentBackground(.hidden) // Ensures Form content uses a transparent background
                             .background(Color.clear) // Removes Form's default background
@@ -135,11 +153,11 @@ struct Customize: View {
             }
             .sheet(isPresented: $showCustomize) {
                 ZStack {
-                    backgroundGradient
+                    purpleGradient
                     
                     NavigationView {
                         ZStack {
-                            backgroundGradient
+                           purpleGradient
                             
                             Form {
                                 if selectedType == "Time" {
@@ -186,7 +204,7 @@ struct Customize: View {
             }
         }
     }
-}
+
 
 #Preview {
     Customize()

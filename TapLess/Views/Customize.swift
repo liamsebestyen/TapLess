@@ -45,41 +45,41 @@ struct Customize: View {
         
         ZStack {
             backgroundGradient
-                bubbles
-                VStack(spacing: 40) {
-                    Text("Restriction Set Up")
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .fontWeight(.bold)
-                        .padding(.top, 25)
-                    
-                       
-                    Spacer()
-                    Text("You currently have no restrictions, add some?")
-                        .padding(.bottom, 100)
-                        .foregroundColor(.white.opacity(0.6))
-                        .fontWeight(.semibold)
-                        .italic()
-                    
-                    Button(action: {
-                        showLevels = true
-                    }) {
-                        Text("Customize")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.white)
-                            .background(backgroundGradient)
-                            .cornerRadius(10)
-                            .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
-                            .padding(.bottom, 25)
-                    }
-                    
-        
-                }
-                .padding()
+            bubbles
+            VStack(spacing: 40) {
+                Text("Restriction Set Up")
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .padding(.top, 25)
                 
+                
+                Spacer()
+                Text("You currently have no restrictions, add some?")
+                    .padding(.bottom, 100)
+                    .foregroundColor(.white.opacity(0.6))
+                    .fontWeight(.semibold)
+                    .italic()
+                
+                Button(action: {
+                    showLevels = true
+                }) {
+                    Text("Customize")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.white)
+                        .background(backgroundGradient)
+                        .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
+                        .padding(.bottom, 25)
+                }
+                
+                
+            }
+            .padding()
+            
             
         }
         
@@ -99,6 +99,7 @@ struct Customize: View {
                                         }
                                     }
                                     .pickerStyle(.segmented)
+                                    .tint(.purple)
                                 }
                                 
                                 Section(header: Text("Threshold").foregroundColor(.white)) {
@@ -130,56 +131,58 @@ struct Customize: View {
                         }}
                 }
                 .background(Color.clear) // Removes NavigationView's default background
-            
-        }
-        .sheet(isPresented: $showCustomize) {
-            ZStack {
-                backgroundGradient
                 
-                NavigationView {
-                    ZStack {
-                        backgroundGradient
-                        
-                        Form {
-                            if selectedType == "Time" {
-                                Section(header: Text("Wait Duration").foregroundColor(.white)) {
-                                    Picker("Select Time", selection: $timeWait) {
-                                        ForEach(times, id: \.self) { time in
-                                            Text(time).tag(time)
+            }
+            .sheet(isPresented: $showCustomize) {
+                ZStack {
+                    backgroundGradient
+                    
+                    NavigationView {
+                        ZStack {
+                            backgroundGradient
+                            
+                            Form {
+                                if selectedType == "Time" {
+                                    Section(header: Text("Wait Duration").foregroundColor(.white)) {
+                                        Picker("Select Time", selection: $timeWait) {
+                                            ForEach(times, id: \.self) { time in
+                                                Text(time).tag(time)
+                                            }
+                                        }
+                                        .pickerStyle(.segmented)
+                                        .tint(.purple)
+                                    }
+                                } else if selectedType == "Math Question" {
+                                    Section(header: Text("Math Difficulty").foregroundColor(.white)) {
+                                        Picker("Difficulty", selection: $difficultyMathQuestion) {
+                                            ForEach(questions, id: \.self) { question in
+                                                Text(question)
+                                            }
                                         }
                                     }
-                                    .pickerStyle(.segmented)
-                                }
-                            } else if selectedType == "Math Question" {
-                                Section(header: Text("Math Difficulty").foregroundColor(.white)) {
-                                    Picker("Difficulty", selection: $difficultyMathQuestion) {
-                                        ForEach(questions, id: \.self) { question in
-                                            Text(question)
-                                        }
-                                    }
                                 }
                             }
+                            .scrollContentBackground(.hidden)
+                            .background(Color.clear)
                         }
-                        .scrollContentBackground(.hidden)
-                        .background(Color.clear)
-                    }
-                    .navigationTitle("Customize Restrictions")
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button("Cancel") {
-                                showCustomize = false
+                        .navigationTitle("Customize Restrictions")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    showCustomize = false
+                                }
+                                .tint(.red)
                             }
-                            .tint(.red)
-                        }
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Confirm") {
-                                showCustomize = false
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Confirm") {
+                                    showCustomize = false
+                                }
+                                .tint(.green)
                             }
-                            .tint(.green)
                         }
                     }
+                    .background(Color.clear)
                 }
-                .background(Color.clear)
             }
         }
     }

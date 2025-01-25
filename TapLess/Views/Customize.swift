@@ -51,17 +51,16 @@ struct Customize: View {
         
         ZStack {
             background
-            bubbles
             VStack(spacing: 40) {
                 Text("Restriction Set Up")
                     .font(.title)
                     .foregroundColor(.white)
                     .fontWeight(.bold)
                     .padding(.top, 25)
-                
-                
                 Spacer()
-                Text("You currently have no restrictions, add some?")
+                bubbles
+                Divider()
+                Text("You currently have no restrictions\n would you like to add some?")
                     .padding(.bottom, 100)
                     .foregroundColor(.white.opacity(0.6))
                     .fontWeight(.semibold)
@@ -93,27 +92,31 @@ struct Customize: View {
                 NavigationView {
                     ZStack {
                         background
-
+                        ScrollView{
                         VStack(spacing: 50){
                             Text("Choose Restriction")
-                                                .font(.title)
-                                                .foregroundColor(.white)
-                                                .fontWeight(.semibold)
-                                                .padding(.top, 10)
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .fontWeight(.semibold)
+                                .padding(.top, 10)
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Type")
                                     .foregroundColor(.white)
                                     .font(.headline)
                                     .padding(.bottom, 10)
-                                Picker("Type", selection: $selectedType) {
-                                    ForEach(options, id: \.self) { option in
-                                        Text(option).tag(option)
-                                    }
-                                }
-                                .accentColor(.white)
-                                .pickerStyle(.segmented)
-                                .tint(.purple)
+                                VStack{
+                                    Picker("Type", selection: $selectedType) {
+                                        ForEach(options, id: \.self) { option in
+                                            Text(option).tag(option)
+                                        }
+                                    }.cornerRadius(10)
+                                        .accentColor(.white)
+                                        .pickerStyle(.segmented)
+                                        .tint(.white)
+                                }.cornerRadius(10)
+                                    .background(Color.white.opacity(0.2))
+                                
                             }
                             .padding()
                             .background(Color.white.opacity(0.12))
@@ -124,8 +127,8 @@ struct Customize: View {
                                     .font(.headline)
                                     .foregroundColor(.white)
                                     .padding(0)
-                                    Slider(value: $tester, in: 0...25, step: 1)
-                                        .tint(.purple)
+                                Slider(value: $tester, in: 0...25, step: 1)
+                                    .tint(.purple)
                                 
                             }
                             .padding()
@@ -133,19 +136,19 @@ struct Customize: View {
                             .cornerRadius(10)
                             Spacer()
                             Spacer()
-                        
+                            
                             if (selectedType == "Time") {
                                 Picker("Select Time", selection: $timeWait) {
                                     ForEach(times, id: \.self) {
                                         time in Text(time).tag(time)
-                                        }
-                                }
+                                    }
+                                }.pickerStyle(.segmented)
                                 
                             } else if (selectedType == "Math Question"){
                                 Picker("Difficulty", selection: $difficultyMathQuestion) {
-                                        ForEach(questions, id: \.self) {
-                                            question in Text(question)
-                                        }
+                                    ForEach(questions, id: \.self) {
+                                        question in Text(question)
+                                    }
                                 }.pickerStyle(.menu)
                                     .tint(.purple)
                             }
@@ -154,6 +157,7 @@ struct Customize: View {
                             //                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
                             //                                }
                         } .padding()
+                    }
                         
                     }
                     .toolbar {

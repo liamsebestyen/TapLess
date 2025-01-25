@@ -90,120 +90,173 @@ struct Customize: View {
         }
         
         .sheet(isPresented: $showLevels) {
-            ZStack {
-                purpleGradient
-                
                 NavigationView {
                     ZStack {
-                        purpleGradient // Gradient background for the Form
-                        VStack(spacing: 10){
-                            VStack {
-                                Section(header: Text("Type").foregroundColor(.white)) {
-                                    Picker("Type", selection: $selectedType) {
-                                        ForEach(options, id: \.self) { option in
-                                            Text(option).tag(option)
-                                        }
-                                    }
-                                    .pickerStyle(.segmented)
-                                    .tint(.purple)
-                                }
-                                Spacer()
-                                Text("Threshold: \(Int(tester))")
-                                    .foregroundColor(.black)
-                                Slider(value: $tester, in: 0...25, step: 1 ){
-                                    Text("Current Value: \(tester)")
-                                } minimumValueLabel: {
-                                    Text("Min")
-                                } maximumValueLabel: {
-                                Text("Max")
-                                }.tint(.purple)
-                                
-                                Spacer()
-                                }
-//                                Section(header: Text("Threshold").foregroundColor(.white)) {
-//                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
-//                                }
-                            }
-                            .scrollContentBackground(.hidden) // Ensures Form content uses a transparent background
-                            .background(Color.clear) // Removes Form's default background
-                        }
-                        .navigationTitle("Choose Restriction")
-                        .foregroundColor(.white)
-                        .foregroundStyle(Color.white)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button(action: { showLevels = false }) {
-                                    Label("Cancel", systemImage: "xmark.circle")
-                                }
-                                .tint(.red)
-                            }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button(action: {
-                                    showLevels = false
-                                    showCustomize = true
-                                }) {
-                                    Label("Confirm", systemImage: "checkmark.circle")
-                                }
-                                .tint(.green)
-                            }
-                        }}
-                }
-                .background(Color.clear) // Removes NavigationView's default background
-                
-            }
-            .sheet(isPresented: $showCustomize) {
-                ZStack {
-                    purpleGradient
-                    
-                    NavigationView {
-                        ZStack {
-                           purpleGradient
+                        background
+
+                        VStack(spacing: 50){
+                            Text("Choose Restriction")
+                                                .font(.title)
+                                                .foregroundColor(.white)
+                                                .fontWeight(.semibold)
+                                                .padding(.top, 10)
                             
-                            Form {
-                                if selectedType == "Time" {
-                                    Section(header: Text("Wait Duration").foregroundColor(.white)) {
-                                        Picker("Select Time", selection: $timeWait) {
-                                            ForEach(times, id: \.self) { time in
-                                                Text(time).tag(time)
-                                            }
-                                        }
-                                        .pickerStyle(.segmented)
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Type")
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                    .padding(.bottom, 10)
+                                Picker("Type", selection: $selectedType) {
+                                    ForEach(options, id: \.self) { option in
+                                        Text(option).tag(option)
+                                    }
+                                }
+                                .accentColor(.white)
+                                .pickerStyle(.segmented)
+                                .tint(.purple)
+                            }
+                            .padding()
+                            .background(Color.white.opacity(0.12))
+                            .cornerRadius(10)
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Threshold: \(Int(tester))")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(0)
+                                    Slider(value: $tester, in: 0...25, step: 1)
                                         .tint(.purple)
-                                    }
-                                } else if selectedType == "Math Question" {
-                                    Section(header: Text("Math Difficulty").foregroundColor(.white)) {
-                                        Picker("Difficulty", selection: $difficultyMathQuestion) {
-                                            ForEach(questions, id: \.self) { question in
-                                                Text(question)
-                                            }
+                                
+                            }
+                            .padding()
+                            .background(Color.white.opacity(0.12))
+                            .cornerRadius(10)
+                            Spacer()
+                            Spacer()
+                        
+                            if (selectedType == "Time") {
+                                Picker("Select Time", selection: $timeWait) {
+                                    ForEach(times, id: \.self) {
+                                        time in Text(time).tag(time)
                                         }
-                                    }
                                 }
+                                
+                            } else if (selectedType == "Math Question"){
+                                Picker("Difficulty", selection: $difficultyMathQuestion) {
+                                        ForEach(questions, id: \.self) {
+                                            question in Text(question)
+                                        }
+                                }.pickerStyle(.menu)
+                                    .tint(.purple)
                             }
-                            .scrollContentBackground(.hidden)
-                            .background(Color.clear)
-                        }
-                        .navigationTitle("Customize Restrictions")
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Cancel") {
-                                    showCustomize = false
-                                }
-                                .tint(.red)
-                            }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Confirm") {
-                                    showCustomize = false
-                                }
-                                .tint(.green)
-                            }
-                        }
+                            
+                            //                                Section(header: Text("Threshold").foregroundColor(.white)) {
+                            //                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
+                            //                                }
+                        } .padding()
+                        
                     }
-                    .background(Color.clear)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                                Button("Cancel") {
+                                    showLevels = false
+                                }.padding(5)
+                                .foregroundColor(.red)
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(8)
+                            }
+                            
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button("Confirm") {
+                                    showLevels = false
+                                } .padding(5)
+                                .foregroundColor(.green)
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(8)
+                            }
+                            }
+                            
+                        }// Display a smaller or larger sheet on iOS 16+
+                .presentationDetents([.large])
+                .navigationBarTitleDisplayMode(.inline)
+                .presentationDragIndicator(.visible)
+                    }
+                    
+//                    .navigationTitle("Choose Restriction")
+//                    .foregroundColor(.white)
+//                    .foregroundStyle(Color.white)
+//                    .toolbar {
+//                        ToolbarItem(placement: .cancellationAction) {
+//                            Button(action: { showLevels = false }) {
+//                                Label("Cancel", systemImage: "xmark.circle")
+//                            }
+//                            .tint(.red)
+//                        }
+//                        ToolbarItem(placement: .confirmationAction) {
+//                            Button(action: {
+//                                showLevels = false
+//                                showCustomize = true
+//                            }) {
+//                                Label("Confirm", systemImage: "checkmark.circle")
+//                            }
+//                            .tint(.green)
+//                        }
+//                    }
                 }
             }
-        }
-    }
+//            .sheet(isPresented: $showCustomize) {
+//                ZStack {
+//                    purpleGradient
+//                    
+//                    NavigationView {
+//                        ZStack {
+//                           purpleGradient
+//                            
+//                            Form {
+//                                if selectedType == "Time" {
+//                                    Section(header: Text("Wait Duration").foregroundColor(.white)) {
+//                                        Picker("Select Time", selection: $timeWait) {
+//                                            ForEach(times, id: \.self) { time in
+//                                                Text(time).tag(time)
+//                                            }
+//                                        }
+//                                        .pickerStyle(.segmented)
+//                                        .tint(.purple)
+//                                    }
+//                                } else if selectedType == "Math Question" {
+//                                    Section(header: Text("Math Difficulty").foregroundColor(.white)) {
+//                                        Picker("Difficulty", selection: $difficultyMathQuestion) {
+//                                            ForEach(questions, id: \.self) { question in
+//                                                Text(question)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            .scrollContentBackground(.hidden)
+//                            .background(Color.clear)
+//                        }
+//                        .navigationTitle("Customize Restrictions")
+//                        .toolbar {
+//                            ToolbarItem(placement: .cancellationAction) {
+//                                Button("Cancel") {
+//                                    showCustomize = false
+//                                }
+//                                .tint(.red)
+//                            }
+//                            ToolbarItem(placement: .confirmationAction) {
+//                                Button("Confirm") {
+//                                    showCustomize = false
+//                                }
+//                                .tint(.green)
+//                            }
+//                        }
+//                    }
+//                    .background(Color.clear)
+//                }
+//            }
+//        }
+//    }
 
 
 #Preview {

@@ -11,7 +11,7 @@ struct Customize: View {
     @State var showCustomize = false
     @State private var threshold: Int = 0
     @State private var selectedType: String = "None"
-    @State private var timeWait: Int = 0
+    @State private var timeWait: String = "5s"
     @State private var difficultyMathQuestion: String = ""
     @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m", "Other"]
     @State private var tester: Double = 0.5
@@ -134,23 +134,48 @@ struct Customize: View {
                             .padding()
                             .background(Color.white.opacity(0.12))
                             .cornerRadius(10)
-                            Spacer()
-                            Spacer()
                             
                             if (selectedType == "Time") {
-                                Picker("Select Time", selection: $timeWait) {
-                                    ForEach(times, id: \.self) {
-                                        time in Text(time).tag(time)
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("How long do you want to wait?")
+                                        .foregroundColor(.white)
+                                        .font(.headline)
+                                        .padding(.bottom, 10)
+                                    VStack{
+                                        Picker("Select Time", selection: $timeWait) {
+                                            ForEach(times, id: \.self) {
+                                                time in Text(time).tag(time)
+                                            }
+                                        }
+                                            .cornerRadius(10)
+                                            .pickerStyle(.segmented)
+                                            .tint(.white)
                                     }
-                                }.pickerStyle(.segmented)
+                                    .tint(.black)
+                                    .cornerRadius(10)
+                                    .background(Color.white.opacity(0.4))
+                                    
+                                }
+                        
                                 
                             } else if (selectedType == "Math Question"){
-                                Picker("Difficulty", selection: $difficultyMathQuestion) {
-                                    ForEach(questions, id: \.self) {
-                                        question in Text(question)
-                                    }
-                                }.pickerStyle(.menu)
-                                    .tint(.purple)
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("What difficulty math question would you like?")
+                                        .foregroundColor(.white)
+                                        .font(.headline)
+                                        .padding(.bottom, 10)
+                                    VStack{
+                                    Picker("Difficulty", selection: $difficultyMathQuestion) {
+                                        ForEach(questions, id: \.self) {
+                                            question in Text(question)
+                                        }
+                                    }.cornerRadius(10)
+                                        .pickerStyle(.segmented)
+                                        .tint(.white)
+                                }.tint(.black)
+                                        .cornerRadius(10)
+                                        .background(Color.white.opacity(0.4))
+                            }
                             }
                             
                             //                                Section(header: Text("Threshold").foregroundColor(.white)) {
@@ -180,7 +205,7 @@ struct Customize: View {
                             }
                             }
                             
-                        }// Display a smaller or larger sheet on iOS 16+
+                        }
                 .presentationDetents([.large])
                 .navigationBarTitleDisplayMode(.inline)
                 .presentationDragIndicator(.visible)

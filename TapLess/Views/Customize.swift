@@ -246,6 +246,7 @@ struct Customize: View {
 
                                         // 5) Create the new restriction rule
                                         let newRule = RestrictionRule(
+                                            appName: appName.isEmpty ? "Default App" : appName,
                                             restrictionType: rType,
                                             threshold: thresholdVal,
                                             waitTime: computedWaitTime,

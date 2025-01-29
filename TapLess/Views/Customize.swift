@@ -7,13 +7,14 @@
 import SwiftUI
 
 struct Customize: View {
+    @State private var createdRestrictions : [RestrictionRule] = []
     @State var showLevels = false
     @State var showCustomize = false
     @State private var threshold: Int = 0
     @State private var selectedType: String = "None"
     @State private var timeWait: String = "5s"
     @State private var difficultyMathQuestion: String = "Easy"
-    @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m", "Other"]
+    @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m"]
     @State private var tester: Double = 0.5
 
     
@@ -58,13 +59,26 @@ struct Customize: View {
                     .fontWeight(.bold)
                     .padding(.top, 25)
                 Spacer()
-                bubbles
-                Divider()
-                Text("You currently have no restrictions\n would you like to add some?")
-                    .padding(.bottom, 100)
-                    .foregroundColor(.white.opacity(0.6))
-                    .fontWeight(.semibold)
-                    .italic()
+                if createdRestrictions.isEmpty {
+                    VStack{
+                    bubbles
+                    Divider()
+                    Text("You currently have no restrictions\n would you like to add some?")
+                        .padding(.bottom, 100)
+                        .foregroundColor(.white.opacity(0.6))
+                        .fontWeight(.semibold)
+                        .italic()
+                }
+                } else {
+                    ForEach(createdRestrictions){
+                        restriction in
+                        restrictionItemView(restriction)
+                    
+                    }
+                       
+                   
+                    
+                }
                 
                 Button(action: {
                     showLevels = true
@@ -200,17 +214,36 @@ struct Customize: View {
                             
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button("Confirm") {
-                                    
-//                                    let restrictionType = "wait"selectedType 
-//                                    let restriction = RestrictionType(
-//                                        restrictionType: RestrictionType
-//                                        var threshold
-//                                        var waitTime: Int?
-//                                        var mathQuestionDifficulty: String?
-//                                        
-//                                    )
-//                                    
-                                    showLevels = false
+                                    // 1) Convert the UI’s string selection to the enum
+                                        let rType = mapStringToRestrictionType(selectedType)
+                                           
+                                        // 2) Convert the slider value to Int
+                                        let thresholdVal = Int(tester)
+
+                                        // 3) If the user picked "Time", parse waitTime
+                                        var computedWaitTime: Int? = nil
+                                        if rType == .wait {
+                                            computedWaitTime = parseWaitTime(timeWait)
+                                        }
+
+                                        // 4) If the user picked "Math Question", store the difficulty
+                                        var questionDiff: String? = nil
+                                        if rType == .mathQuestion {
+                                            questionDiff = difficultyMathQuestion
+                                           }
+
+                                        // 5) Create the new restriction rule
+                                        let newRule = RestrictionRule(
+                                            restrictionType: rType,
+                                            threshold: thresholdVal,
+                                            waitTime: computedWaitTime,
+                                            mathQuestionDifficulty: questionDiff
+                                           )
+
+                                        // 6) Add to your array of restrictions
+                                        createdRestrictions.append(newRule)
+
+                                        showLevels = false
                                 } .padding(5)
                                 .foregroundColor(.green)
                                 .background(Color.gray.opacity(0.2))
@@ -245,6 +278,43 @@ struct Customize: View {
 //                        }
 //                    }
                 }
+    
+    @ViewBuilder
+    private func restrictionItemView(_ rule: RestrictionRule) -> some View {
+        HStack {
+            Text(rule.restrictionType.rawValue)
+                .font(.headline)
+            Spacer()
+            Text(rule.restrictionType.rawValue)
+        }
+    }
+    
+    
+    private func mapStringToRestrictionType(_ selectedType: String) -> RestrictionType {
+        switch selectedType {
+        case "Time":
+            return .wait
+        case "Math Question":
+            return .mathQuestion
+        default:
+            return .none
+        }
+    }
+    private func parseWaitTime(_ timeString: String) -> Int? {
+        if timeString.hasSuffix("s") {
+            // "5s" -> "5"
+            let value = timeString.dropLast()
+            return Int(value) // e.g. "5" -> 5
+        } else if timeString == "1m" {
+            return 60
+        } else {
+            // Could prompt the user for a custom input
+            return nil
+        }
+        // Add more logic if needed
+        return nil
+    }
+
             }
 //            .sheet(isPresented: $showCustomize) {
 //                ZStack {

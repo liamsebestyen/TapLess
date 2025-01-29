@@ -21,6 +21,7 @@ enum RestrictionType: String, Codable, Identifiable {
 
 struct RestrictionRule: Codable, Identifiable {
     var id = UUID()
+    var appName: String?
     var restrictionType: RestrictionType
     var threshold: Int
     

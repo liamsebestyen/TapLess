@@ -312,7 +312,6 @@ struct Customize: View {
             return nil
         }
         // Add more logic if needed
-        return nil
     }
 
             }

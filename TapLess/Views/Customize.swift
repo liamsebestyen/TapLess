@@ -23,6 +23,7 @@ struct Customize: View {
     private let questions: [String] = ["Easy", "Moderate", "Hard", "Extreme", "Engineer"]
     
     //Would like to group the restrictions by application for the future
+    //Would be good to test this with an actual running instance
     
     private var background : some View {
         Color.black

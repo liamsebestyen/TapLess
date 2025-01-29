@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    
+    var gradientBackground : some View {
+        
+        LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.75), Color.purple.opacity(0.8)]),
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+        .edgesIgnoringSafeArea(.all)
+    }
     var body: some View {
         NavigationView {
             ZStack {
                 // Create the background colour gradient
-                LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.75), Color.purple.opacity(0.8)]),
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
-                .edgesIgnoringSafeArea(.all)
+                gradientBackground
                 
                 
                 

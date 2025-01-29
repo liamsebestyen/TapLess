@@ -12,7 +12,7 @@ struct Customize: View {
     @State private var threshold: Int = 0
     @State private var selectedType: String = "None"
     @State private var timeWait: String = "5s"
-    @State private var difficultyMathQuestion: String = ""
+    @State private var difficultyMathQuestion: String = "Easy"
     @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m", "Other"]
     @State private var tester: Double = 0.5
 
@@ -152,8 +152,9 @@ struct Customize: View {
                                             .tint(.white)
                                     }
                                     .tint(.black)
+                                    .background(Color.white.opacity(0.5))
                                     .cornerRadius(10)
-                                    .background(Color.white.opacity(0.4))
+                                   
                                     
                                 }
                         
@@ -163,19 +164,21 @@ struct Customize: View {
                                     Text("What difficulty math question would you like?")
                                         .foregroundColor(.white)
                                         .font(.headline)
-                                        .padding(.bottom, 10)
+                                        .padding()
                                     VStack{
                                     Picker("Difficulty", selection: $difficultyMathQuestion) {
                                         ForEach(questions, id: \.self) {
                                             question in Text(question)
                                         }
-                                    }.cornerRadius(10)
+                                    }
                                         .pickerStyle(.segmented)
                                         .tint(.white)
                                 }.tint(.black)
-                                        .cornerRadius(10)
-                                        .background(Color.white.opacity(0.4))
-                            }
+                                       
+                                        .background(Color.white.opacity(0.5))
+                                        .cornerRadius(6)
+                                }
+                                .cornerRadius(10)
                             }
                             
                             //                                Section(header: Text("Threshold").foregroundColor(.white)) {
@@ -197,6 +200,16 @@ struct Customize: View {
                             
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button("Confirm") {
+                                    
+//                                    let restrictionType = "wait"selectedType 
+//                                    let restriction = RestrictionType(
+//                                        restrictionType: RestrictionType
+//                                        var threshold
+//                                        var waitTime: Int?
+//                                        var mathQuestionDifficulty: String?
+//                                        
+//                                    )
+//                                    
                                     showLevels = false
                                 } .padding(5)
                                 .foregroundColor(.green)

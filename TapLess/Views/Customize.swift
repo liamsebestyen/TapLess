@@ -281,12 +281,47 @@ struct Customize: View {
     
     @ViewBuilder
     private func restrictionItemView(_ rule: RestrictionRule) -> some View {
-        HStack {
-            Text(rule.restrictionType.rawValue)
-                .font(.headline)
-            Spacer()
-            Text(rule.restrictionType.rawValue)
-        }
+        VStack(alignment: .leading, spacing: 8) {
+                // App Name
+//                Text(rule.appName ?? "Unknown App")
+//                    .font(.title3)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.white)
+
+                // Restriction Type + Threshold
+                HStack {
+                    Text("Type: \(rule.restrictionType.rawValue.capitalized)")
+                        .foregroundColor(.white.opacity(0.8))
+                    Spacer()
+                    Text("Threshold: \(rule.threshold)")
+                        .foregroundColor(.white.opacity(0.8))
+                }
+
+                // Wait time or math difficulty
+                if rule.restrictionType == .wait {
+                    let waitTime = rule.waitTime ?? 0
+                    Text("Wait Time: \(waitTime) seconds")
+                        .foregroundColor(.white.opacity(0.8))
+                } else if rule.restrictionType == .mathQuestion {
+                    let diff = rule.mathQuestionDifficulty ?? "N/A"
+                    Text("Math Difficulty: \(diff)")
+                        .foregroundColor(.white.opacity(0.8))
+                } else {
+                    Text("No Additional Restriction")
+                        .foregroundColor(.white.opacity(0.4))
+                }
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white.opacity(0.1))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+            )
+            .padding(.horizontal)
+            .padding(.vertical, 4)
     }
     
     
@@ -308,7 +343,7 @@ struct Customize: View {
         } else if timeString == "1m" {
             return 60
         } else {
-            // Could prompt the user for a custom input
+            // Could be useful for later.
             return nil
         }
         // Add more logic if needed

@@ -108,6 +108,17 @@ struct Customize: View {
                     ZStack {
                         background
                         ScrollView{
+                            VStack(alignment: .leading, spacing: 5){
+                                Text("Which app are you wanting to restrict?").font(.title)
+                                    .foregroundColor(.white)
+                                    .fontWeight(.semibold)
+                                    .padding(.top, 10)
+                                TextField("e.g TikTok", text: $appName)
+                                    .textFieldStyle(.roundedBorder)
+                                    .padding(.vertical, 4)
+                                    
+                            }
+                            
                         VStack(spacing: 50){
                             Text("Choose Restriction")
                                 .font(.title)
@@ -323,6 +334,25 @@ struct Customize: View {
             )
             .padding(.horizontal)
             .padding(.vertical, 4)
+    }
+    // Save restrictions once created
+    private func saveRestrictions(){
+        do {
+            let data = try JSONEncoder().encode(createdRestrictions)
+            UserDefaults.standard.set(data, forKey: "savedRestrictions")
+            } catch {
+                print("Error saving the restrictions: \(error)")
+            }
+    }
+    
+    private func loadRestrictions(){
+        guard let savedData = UserDefaults.standard.data(forKey: "savedRestrictions") else {return}
+            do {
+                let decoded = try JSONDecoder().decode([RestrictionRule].self , from: savedData)
+                self.createdRestrictions = decoded
+            } catch {
+                print("Error loading the saved restrictions: \(error)")
+            }
     }
     
     

@@ -256,7 +256,8 @@ struct Customize: View {
                                         // 6) Add to your array of restrictions
                                         saveRestrictions()
                                         createdRestrictions.append(newRule)
-
+                                        // 7) Clear AppName
+                                        appName = ""
                                         showLevels = false
                                 } .padding(5)
                                 .foregroundColor(.green)

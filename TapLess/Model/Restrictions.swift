@@ -25,8 +25,10 @@ struct RestrictionRule: Codable, Identifiable {
     var threshold: Int
     
     var waitTime: Int?
-    var mathQuestion: String?
-    var correctAnswer: Int?
+    var mathQuestionDifficulty: String?
+    
+//    var mathQuestion: String?
+//    var correctAnswer: Int?
 }
 
 
@@ -35,5 +37,5 @@ struct RestrictionRule: Codable, Identifiable {
 
 
 let rule1 = RestrictionRule(restrictionType: .wait, threshold: 5, waitTime: 10)
-let rule2 = RestrictionRule(restrictionType: .mathQuestion, threshold: 10, mathQuestion: "5 + 5", correctAnswer: 10)
+let rule2 = RestrictionRule(restrictionType: .mathQuestion, threshold: 10, mathQuestionDifficulty: "Easy")
 

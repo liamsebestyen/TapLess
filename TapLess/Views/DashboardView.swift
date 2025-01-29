@@ -8,6 +8,15 @@
 import SwiftUI
 
 struct DashboardView: View {
+    
+    var gradientBackground : some View {
+        
+        LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.75), Color.purple.opacity(0.8)]),
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+        .edgesIgnoringSafeArea(.all)
+    }
+    
     var body: some View {
 TabView {
     
@@ -25,6 +34,7 @@ TabView {
     Customize()
     .tabItem {
             Label("Customize", systemImage: "sparkle.magnifyingglass" )
+            .background(gradientBackground)
             Customize()
         }
         

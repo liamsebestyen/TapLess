@@ -253,6 +253,7 @@ struct Customize: View {
                                            )
 
                                         // 6) Add to your array of restrictions
+                                        saveRestrictions()
                                         createdRestrictions.append(newRule)
 
                                         showLevels = false

@@ -22,6 +22,8 @@ struct Customize: View {
     private let options: [String] = ["None", "Time", "Math Question"]
     private let questions: [String] = ["Easy", "Moderate", "Hard", "Extreme", "Engineer"]
     
+    //Would like to group the restrictions by application for the future
+    
     private var background : some View {
         Color.black
             .ignoresSafeArea()

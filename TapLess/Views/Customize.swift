@@ -158,18 +158,7 @@ struct Customize: View {
                 NavigationView {
                     ZStack {
                         background
-                        ScrollView{
-                            VStack(alignment: .leading, spacing: 5){
-                                Text("Which app are you wanting to restrict?").font(.title)
-                                    .foregroundColor(.white)
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 10)
-                                TextField("e.g TikTok", text: $appName)
-                                    .textFieldStyle(.roundedBorder)
-                                    .padding(.vertical, 4)
-                                    
-                            }
-                            
+                        ScrollView{                            
                         VStack(spacing: 50){
                             Text("Choose Restriction")
                                 .font(.title)

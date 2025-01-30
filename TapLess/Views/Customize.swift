@@ -13,6 +13,7 @@ struct Customize: View {
     @State var showCustomize = false
     @State private var threshold: Int = 0
     @State private var selectedType: String = "None"
+    @State private var addAppRestriction: Bool = false
     @State private var timeWait: String = "5s"
     @State private var difficultyMathQuestion: String = "Easy"
     @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m"]
@@ -85,6 +86,7 @@ struct Customize: View {
                 
                 Button(action: {
                     showLevels = true
+                    addAppRestriction = true
                 }) {
                     Text("Customize")
                         .font(.title)
@@ -107,6 +109,51 @@ struct Customize: View {
             
         }
         
+        .sheet(isPresented: $addAppRestriction){
+            NavigationView {
+                
+                
+                ZStack{
+                    background
+                    VStack(alignment: .leading, spacing: 5){
+                        Text("Which app are you wanting to restrict?").font(.title)
+                            .foregroundColor(.white)
+                            .fontWeight(.semibold)
+                            .padding(.top, 10)
+                        TextField("e.g TikTok", text: $appName)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.vertical, 4)
+                        
+                    }
+                    
+                    
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Cancel") {
+                                appName = ""
+                                showLevels = false
+                                addAppRestriction = false
+                            }.padding(5)
+                            .foregroundColor(.red)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                        }
+                        
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("Confirm") {
+                                    appName = ""
+                                addAppRestriction = false
+                                showLevels = true
+                              
+                            } .padding(5)
+                            .foregroundColor(.green)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                        }
+                        }
+            }
+        }
         .sheet(isPresented: $showLevels) {
                 NavigationView {
                     ZStack {

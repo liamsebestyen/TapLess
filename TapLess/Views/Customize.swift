@@ -102,7 +102,9 @@ struct Customize: View {
                 
             }
             .padding()
-            
+            .onAppear{
+                loadRestrictions()
+            }
             
         }
         
@@ -210,9 +212,7 @@ struct Customize: View {
                                 .cornerRadius(10)
                             }
                             
-                            //                                Section(header: Text("Threshold").foregroundColor(.white)) {
-                            //                                    Stepper("Threshold: \(threshold)", value: $threshold, in: 0...100)
-                            //                                }
+                          
                         } .padding()
                     }
                         

@@ -279,27 +279,6 @@ struct Customize: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .presentationDragIndicator(.visible)
                     }
-                    
-//                    .navigationTitle("Choose Restriction")
-//                    .foregroundColor(.white)
-//                    .foregroundStyle(Color.white)
-//                    .toolbar {
-//                        ToolbarItem(placement: .cancellationAction) {
-//                            Button(action: { showLevels = false }) {
-//                                Label("Cancel", systemImage: "xmark.circle")
-//                            }
-//                            .tint(.red)
-//                        }
-//                        ToolbarItem(placement: .confirmationAction) {
-//                            Button(action: {
-//                                showLevels = false
-//                                showCustomize = true
-//                            }) {
-//                                Label("Confirm", systemImage: "checkmark.circle")
-//                            }
-//                            .tint(.green)
-//                        }
-//                    }
                 }
     
     @ViewBuilder

@@ -74,14 +74,13 @@ struct Customize: View {
                         .italic()
                 }
                 } else {
-                    ForEach(createdRestrictions){
-                        restriction in
-                        restrictionItemView(restriction)
-                    
+                    ScrollView {
+                        ForEach(createdRestrictions){
+                            restriction in
+                            restrictionItemView(restriction)
+                            
+                        }
                     }
-                       
-                   
-                    
                 }
                 
                 Button(action: {

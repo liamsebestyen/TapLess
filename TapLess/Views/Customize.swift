@@ -270,6 +270,11 @@ struct Customize: View {
                             }
                             
                         }
+                .onDisappear{
+                    appName = ""
+                    selectedType = "None"
+                    tester = 0.5
+                }
                 .presentationDetents([.large])
                 .navigationBarTitleDisplayMode(.inline)
                 .presentationDragIndicator(.visible)
@@ -301,10 +306,10 @@ struct Customize: View {
     private func restrictionItemView(_ rule: RestrictionRule) -> some View {
         VStack(alignment: .leading, spacing: 8) {
                 // App Name
-//                Text(rule.appName ?? "Unknown App")
-//                    .font(.title3)
-//                    .fontWeight(.bold)
-//                    .foregroundColor(.white)
+                Text(rule.appName ?? "Unknown App")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
 
                 // Restriction Type + Threshold
                 HStack {

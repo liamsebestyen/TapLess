@@ -115,16 +115,37 @@ struct Customize: View {
                 
                 ZStack{
                     background
-                    VStack(alignment: .leading, spacing: 5){
-                        Text("Which app are you wanting to restrict?").font(.title)
+                    VStack(alignment: .center, spacing: 25){
+                        Text("Select App to Restrict")
                             .foregroundColor(.white)
-                            .fontWeight(.semibold)
+                            .font(.title)
+                            .fontWeight(.bold)
                             .padding(.top, 10)
-                        TextField("e.g TikTok", text: $appName)
-                            .textFieldStyle(.roundedBorder)
-                            .padding(.vertical, 4)
+                        Text("Enter the name of the app you would like to set a screen-time restriction for.")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .padding()
                         
-                    }
+                        TextField("e.g TikTok", text: $appName)
+                            .padding()
+                                .background(Color.white.opacity(0.2))
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                                .shadow(color: .black.opacity(0.2), radius: 4, x: 2, y: 2)
+                        
+                    } .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.white.opacity(0.1))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                        )
+                        .padding(.horizontal)
+                        .padding(.vertical, 4)
+                    
                     
                     
                 }
@@ -141,7 +162,7 @@ struct Customize: View {
                         }
                         
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Confirm") {
+                            Button("Next") {
                                     appName = ""
                                 addAppRestriction = false
                                 showLevels = true
@@ -153,12 +174,13 @@ struct Customize: View {
                         }
                         }
             }
+            .presentationDetents([.medium, .large])
         }
         .sheet(isPresented: $showLevels) {
                 NavigationView {
                     ZStack {
                         background
-                        ScrollView{                            
+                        ScrollView{
                         VStack(spacing: 50){
                             Text("Choose Restriction")
                                 .font(.title)

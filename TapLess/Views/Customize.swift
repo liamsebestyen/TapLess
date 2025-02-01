@@ -112,9 +112,10 @@ struct Customize: View {
         .sheet(isPresented: $addAppRestriction){
             NavigationView {
                 
-                
+            
                 ZStack{
                     background
+                    //App Restriction
                     VStack(alignment: .center, spacing: 25){
                         Text("Select App to Restrict")
                             .foregroundColor(.white)

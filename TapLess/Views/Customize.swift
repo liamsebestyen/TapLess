@@ -8,7 +8,7 @@ import SwiftUI
 
 struct Customize: View {
     @State private var appName: String = ""
-    @State private var createdRestrictions : [RestrictionRule] = []
+    @State private var createdRestrictions : [String: [RestrictionRule]] = [:]
     @State var showLevels = false
     @State var showCustomize = false
     @State private var threshold: Int = 0
@@ -76,10 +76,14 @@ struct Customize: View {
                 }
                 } else {
                     ScrollView {
-                        ForEach(createdRestrictions){
-                            restriction in
-                            restrictionItemView(restriction)
-                            
+                        ForEach(createdRestrictions.keys.sorted(), id: \.self){ appName in
+                            Section(header: Text(appName)){
+                                ForEach(createdRestrictions[appName] ?? []){ restriction in
+                                    restrictionItemView(restriction)
+                                }
+                                
+                                
+                            }
                         }
                     }
                 }
@@ -164,7 +168,6 @@ struct Customize: View {
                         
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button("Next") {
-                                    appName = ""
                                 addAppRestriction = false
                                 showLevels = true
                               
@@ -188,7 +191,6 @@ struct Customize: View {
                                 .foregroundColor(.white)
                                 .fontWeight(.semibold)
                                 .padding(.top, 10)
-                            
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Type")
                                     .foregroundColor(.white)
@@ -313,11 +315,16 @@ struct Customize: View {
                                             waitTime: computedWaitTime,
                                             mathQuestionDifficulty: questionDiff
                                            )
+                                    //6) Add Key to associate with createdRestriction
+                                    print(appName)
+                                    print(newRule)
+                                    
+                                        let key = appName.isEmpty ? "Default App" : appName
+                                    createdRestrictions[key, default: []].append(newRule)
 
-                                        // 6) Add to your array of restrictions
+                                        // 7) Add to your array of restrictions
                                         saveRestrictions()
-                                        createdRestrictions.append(newRule)
-                                        // 7) Clear AppName
+                                        // 8) Clear AppName
                                         appName = ""
                                         showLevels = false
                                 } .padding(5)
@@ -396,7 +403,7 @@ struct Customize: View {
     private func loadRestrictions(){
         guard let savedData = UserDefaults.standard.data(forKey: "savedRestrictions") else {return}
             do {
-                let decoded = try JSONDecoder().decode([RestrictionRule].self , from: savedData)
+                let decoded = try JSONDecoder().decode([String:[RestrictionRule]].self , from: savedData)
                 self.createdRestrictions = decoded
             } catch {
                 print("Error loading the saved restrictions: \(error)")

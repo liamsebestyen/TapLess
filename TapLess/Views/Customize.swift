@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct Customize: View {
-    @State private var editingRestriction: (appKey: String, index: Int, restriction: RestrictionRule)? = nil
+    @State private var editingRestriction: (appKey: String, index: Int, rule: RestrictionRule)? = nil
     @State private var appName: String = ""
     @State private var createdRestrictions : [String: [RestrictionRule]] = [:]
     @State var showLevels = false
@@ -54,6 +54,172 @@ struct Customize: View {
             )
     }
     
+    struct EditRestrictionView: View {
+        // Initial editing values (passed in from the parent)
+        let editing: (appKey: String, index: Int, rule: RestrictionRule)
+        // A callback to notify the parent view of the updated rule.
+        var onSave: (RestrictionRule, String) -> Void
+        
+        // Local state variables for each editable field:
+        @State private var appName: String
+        @State private var selectedType: String
+        @State private var threshold: Double
+        @State private var timeWait: String
+        @State private var difficultyMathQuestion: String
+
+        // Use the same arrays as before:
+        private let options: [String] = ["None", "Time", "Math Question"]
+        private let questions: [String] = ["Easy", "Moderate", "Hard", "Extreme", "Engineer"]
+
+        // Initialize the state variables using the passed in rule.
+        init(editing: (appKey: String, index: Int, rule: RestrictionRule), onSave: @escaping (RestrictionRule, String) -> Void) {
+            self.editing = editing
+            self.onSave = onSave
+            // Prepopulate the fields
+            _appName = State(initialValue: editing.rule.appName ?? editing.appKey)
+            _selectedType = State(initialValue: {
+                switch editing.rule.restrictionType {
+                case .wait: return "Time"
+                case .mathQuestion: return "Math Question"
+                default: return "None"
+                }
+            }())
+            _threshold = State(initialValue: Double(editing.rule.threshold))
+            _timeWait = State(initialValue: editing.rule.waitTime != nil ? "\(editing.rule.waitTime!)s" : "5s")
+            _difficultyMathQuestion = State(initialValue: editing.rule.mathQuestionDifficulty ?? "Easy")
+        }
+
+        var body: some View {
+            ZStack {
+                Color.black.ignoresSafeArea()
+                ScrollView {
+                    VStack(spacing: 30) {
+                        Text("Edit Restriction")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .padding(.top, 20)
+                        
+                        // App Name field
+                        VStack(alignment: .leading) {
+                            Text("App Name")
+                                .foregroundColor(.white)
+                            TextField("Enter app name", text: $appName)
+                                .padding()
+                                .background(Color.white.opacity(0.2))
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                        }
+                        .padding()
+
+                        // Restriction Type picker
+                        VStack(alignment: .leading) {
+                            Text("Type")
+                                .foregroundColor(.white)
+                            Picker("Type", selection: $selectedType) {
+                                ForEach(options, id: \.self) { option in
+                                    Text(option).tag(option)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                        }
+                        .padding()
+
+                        // Threshold slider (or use a TextField if you prefer)
+                        VStack(alignment: .leading) {
+                            Text("Threshold: \(Int(threshold))")
+                                .foregroundColor(.white)
+                            Slider(value: $threshold, in: 0...25, step: 1)
+                                .tint(.purple)
+                        }
+                        .padding()
+
+                        // Conditional fields based on type:
+                        if selectedType == "Time" {
+                            VStack(alignment: .leading) {
+                                Text("Wait Time")
+                                    .foregroundColor(.white)
+                                // For simplicity, use the same segmented control you had
+                                Picker("Select Time", selection: $timeWait) {
+                                    ForEach(["5s", "10s", "20s", "30s", "1m"], id: \.self) { time in
+                                        Text(time).tag(time)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                            }
+                            .padding()
+                        } else if selectedType == "Math Question" {
+                            VStack(alignment: .leading) {
+                                Text("Math Difficulty")
+                                    .foregroundColor(.white)
+                                Picker("Difficulty", selection: $difficultyMathQuestion) {
+                                    ForEach(questions, id: \.self) { question in
+                                        Text(question)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                            }
+                            .padding()
+                        }
+                        
+                        HStack {
+                            Button("Cancel") {
+                                // Dismiss the sheet by calling onSave with no changes
+                                onSave(editing.rule, editing.appKey) // You might choose not to call onSave on cancel
+                            }
+                            .padding()
+                            .foregroundColor(.red)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                            
+                            Button("Save") {
+                                // Map string to restriction type
+                                let newType: RestrictionType
+                                switch selectedType {
+                                case "Time": newType = .wait
+                                case "Math Question": newType = .mathQuestion
+                                default: newType = .none
+                                }
+                                
+                                // Parse the wait time if necessary
+                                let computedWaitTime: Int? = newType == .wait ? parseWaitTime(timeWait) : nil
+
+                                // Create a new rule with the updated values.
+                                let updatedRule = RestrictionRule(
+                                    appName: appName,
+                                    restrictionType: newType,
+                                    threshold: Int(threshold),
+                                    waitTime: computedWaitTime,
+                                    mathQuestionDifficulty: newType == .mathQuestion ? difficultyMathQuestion : nil
+                                )
+                                
+                                // Notify the parent view about the update.
+                                onSave(updatedRule, appName)
+                            }
+                            .padding()
+                            .foregroundColor(.green)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                        }
+                        .padding(.bottom, 20)
+                    }
+                }
+            }
+        }
+        
+        // You can include your parsing function here, or make it available globally.
+        private func parseWaitTime(_ timeString: String) -> Int? {
+            if timeString.hasSuffix("s") {
+                let value = timeString.dropLast()
+                return Int(value)
+            } else if timeString == "1m" {
+                return 60
+            } else {
+                return nil
+            }
+        }
+    }
+
+    
     var body: some View {
         
         ZStack {
@@ -79,8 +245,12 @@ struct Customize: View {
                     ScrollView {
                         ForEach(createdRestrictions.keys.sorted(), id: \.self){ appName in
                             Section(header: Text(appName)){
-                                ForEach(createdRestrictions[appName] ?? []){ restriction in
+                                ForEach(Array((createdRestrictions[appName] ?? []).enumerated()), id: \.element.id ){ index, restriction in
                                     restrictionItemView(restriction)
+                                        .onTapGesture{
+                                            editingRestriction = (appKey: appName, index: index, rule: restriction)
+                                        }
+                                    
                                 }
                                 
                                 
@@ -113,7 +283,19 @@ struct Customize: View {
             }
             
         }
-        
+        .sheet(isPresented: Binding<Bool>(
+            get: { editingRestriction != nil },
+            set: { newValue in if !newValue { editingRestriction = nil } }
+        )) {
+            if let editing = editingRestriction {
+                EditRestrictionView(editing: editing) { updatedRule, updatedAppKey in
+                    // This is the closure that will be called on Save from the edit sheet.
+                    updateRestriction(original: editing, with: updatedRule, newAppKey: updatedAppKey)
+                    editingRestriction = nil
+                }
+            }
+        }
+
         .sheet(isPresented: $addAppRestriction){
             NavigationView {
                 
@@ -435,6 +617,25 @@ struct Customize: View {
         }
         // Add more logic if needed
     }
+    
+    private func updateRestriction(original: (appKey: String, index: Int, rule: RestrictionRule), with updatedRule: RestrictionRule, newAppKey: String) {
+        // If the app name (which is our key) hasn’t changed, simply update the array element:
+        if newAppKey == original.appKey {
+            createdRestrictions[newAppKey]?[original.index] = updatedRule
+        } else {
+            // If the app name changes, you may need to:
+            // 1. Remove the rule from the old key.
+            // 2. Add it to the new key (creating the key if it doesn’t exist).
+            createdRestrictions[original.appKey]?.remove(at: original.index)
+            // Clean up if the array becomes empty:
+            if createdRestrictions[original.appKey]?.isEmpty == true {
+                createdRestrictions.removeValue(forKey: original.appKey)
+            }
+            createdRestrictions[newAppKey, default: []].append(updatedRule)
+        }
+        saveRestrictions()
+    }
+
 
             }
 //            .sheet(isPresented: $showCustomize) {

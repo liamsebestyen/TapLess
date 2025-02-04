@@ -13,7 +13,6 @@ import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 // import AsyncStorage from '@react-native-async-storage/async-storage'; // for persistence if desired
 
-// A simple mapping for restriction types
 const RestrictionType = {
   none: 'none',
   wait: 'wait',

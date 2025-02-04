@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct Customize: View {
+    @State private var editingRestriction: (appKey: String, index: Int, restriction: RestrictionRule)? = nil
     @State private var appName: String = ""
     @State private var createdRestrictions : [String: [RestrictionRule]] = [:]
     @State var showLevels = false

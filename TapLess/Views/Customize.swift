@@ -319,7 +319,7 @@ struct Customize: View {
                                     //6) Add Key to associate with createdRestriction
                                     print(appName)
                                     print(newRule)
-                                    
+                                    appName = appName.lowercased()
                                         let key = appName.isEmpty ? "Default App" : appName
                                     createdRestrictions[key, default: []].append(newRule)
 

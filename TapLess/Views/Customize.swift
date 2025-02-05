@@ -93,14 +93,14 @@ struct Customize: View {
             ZStack {
                 Color.black.ignoresSafeArea()
                 ScrollView {
-                    VStack(spacing: 30) {
+                    VStack(spacing: 50) {
                         Text("Edit Restriction")
                             .font(.title)
                             .foregroundColor(.white)
-                            .padding(.top, 20)
+                            .fontWeight(.semibold)
+                            .padding(.top, 10)
                         
-                        // App Name field
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 8) {
                             Text("App Name")
                                 .foregroundColor(.white)
                             TextField("Enter app name", text: $appName)
@@ -115,6 +115,8 @@ struct Customize: View {
                         VStack(alignment: .leading) {
                             Text("Type")
                                 .foregroundColor(.white)
+                                .font(.headline)
+                                .padding(.bottom, 10)
                             Picker("Type", selection: $selectedType) {
                                 ForEach(options, id: \.self) { option in
                                     Text(option).tag(option)

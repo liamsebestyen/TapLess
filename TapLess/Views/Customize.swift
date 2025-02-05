@@ -421,8 +421,9 @@ struct Customize: View {
                                         .accentColor(.white)
                                         .pickerStyle(.segmented)
                                         .tint(.white)
-                                }.cornerRadius(10)
+                                }
                                     .background(Color.white.opacity(0.2))
+                                    .cornerRadius(10)
                                 
                             }
                             .padding()

@@ -112,20 +112,26 @@ struct Customize: View {
                         .padding()
 
                         // Restriction Type picker
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 8) {
                             Text("Type")
                                 .foregroundColor(.white)
                                 .font(.headline)
                                 .padding(.bottom, 10)
+                            VStack{
                             Picker("Type", selection: $selectedType) {
                                 ForEach(options, id: \.self) { option in
                                     Text(option).tag(option)
                                 }
                             }
-                                .cornerRadius(10)
-                                .accentColor(.white)
-                                .pickerStyle(.segmented)
-                                .tint(.white)
+                            .cornerRadius(10)
+                            .accentColor(.white)
+                            .pickerStyle(.segmented)
+                            .tint(.white)
+                            
+                        }
+                            .cornerRadius(10)
+                            .background(Color.white.opacity(0.2))
+                            
                         }
                         .padding()
                         .background(Color.white.opacity(0.12))

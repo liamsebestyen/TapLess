@@ -90,6 +90,8 @@ struct Customize: View {
         }
 
         var body: some View {
+            NavigationView{
+             
             ZStack {
                 Color.black.ignoresSafeArea()
                 ScrollView {
@@ -110,7 +112,7 @@ struct Customize: View {
                                 .foregroundColor(.white)
                         }
                         .padding()
-
+                        
                         // Restriction Type picker
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Type")
@@ -118,17 +120,17 @@ struct Customize: View {
                                 .font(.headline)
                                 .padding(.bottom, 10)
                             VStack{
-                            Picker("Type", selection: $selectedType) {
-                                ForEach(options, id: \.self) { option in
-                                    Text(option).tag(option)
+                                Picker("Type", selection: $selectedType) {
+                                    ForEach(options, id: \.self) { option in
+                                        Text(option).tag(option)
+                                    }
                                 }
+                                .cornerRadius(10)
+                                .accentColor(.white)
+                                .pickerStyle(.segmented)
+                                .tint(.white)
+                                
                             }
-                            .cornerRadius(10)
-                            .accentColor(.white)
-                            .pickerStyle(.segmented)
-                            .tint(.white)
-                            
-                        }
                             
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(10)
@@ -143,14 +145,14 @@ struct Customize: View {
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding(0)
-
+                            
                             Slider(value: $threshold, in: 0...25, step: 1)
                                 .tint(.purple)
                         }
                         .padding()
                         .background(Color.white.opacity(0.12))
                         .cornerRadius(10)
-
+                        
                         if selectedType == "Time" {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Wait Time")
@@ -158,18 +160,18 @@ struct Customize: View {
                                     .font(.headline)
                                     .padding(.bottom, 10)
                                 VStack{
-                                Picker("Select Time", selection: $timeWait) {
-                                    ForEach(["5s", "10s", "20s", "30s", "1m"], id: \.self) { time in
-                                        Text(time).tag(time)
+                                    Picker("Select Time", selection: $timeWait) {
+                                        ForEach(["5s", "10s", "20s", "30s", "1m"], id: \.self) { time in
+                                            Text(time).tag(time)
+                                        }
                                     }
+                                    .cornerRadius(10)
+                                    .pickerStyle(.segmented)
+                                    .tint(.white)
                                 }
-                                .cornerRadius(10)
-                                .pickerStyle(.segmented)
-                                .tint(.white)
-                            }
                                 .background(Color.white.opacity(0.5))
                                 .cornerRadius(10)
-                               
+                                
                             }.padding()
                             
                         } else if selectedType == "Math Question" {
@@ -179,13 +181,13 @@ struct Customize: View {
                                     .font(.headline)
                                     .padding()
                                 VStack{
-                                Picker("Difficulty", selection: $difficultyMathQuestion) {
-                                    ForEach(questions, id: \.self) { question in
-                                        Text(question)
+                                    Picker("Difficulty", selection: $difficultyMathQuestion) {
+                                        ForEach(questions, id: \.self) { question in
+                                            Text(question)
+                                        }
                                     }
-                                }
-                                .pickerStyle(.segmented)
-                                .tint(.white)
+                                    .pickerStyle(.segmented)
+                                    .tint(.white)
                                 }
                                 .tint(.black)
                                 .background(Color.white.opacity(0.5))
@@ -193,6 +195,47 @@ struct Customize: View {
                             }
                             .cornerRadius(10)
                         }
+                        
+//                            .toolbar{
+//                                
+//                                ToolbarItem(placement: .navigationBarLeading){
+//                                    // Map string to restriction type
+//                                    let newType: RestrictionType
+//                                    switch selectedType {
+//                                    case "Time": newType = .wait
+//                                    case "Math Question": newType = .mathQuestion
+//                                    default: newType = .none
+//                                    }
+//                                    
+//                                    // Parse the wait time if necessary
+//                                    let computedWaitTime: Int? = newType == .wait ? parseWaitTime(timeWait) : nil
+//                                    
+//                                    // Create a new rule with the updated values.
+//                                    let updatedRule = RestrictionRule(
+//                                        appName: appName,
+//                                        restrictionType: newType,
+//                                        threshold: Int(threshold),
+//                                        waitTime: computedWaitTime,
+//                                        mathQuestionDifficulty: newType == .mathQuestion ? difficultyMathQuestion : nil
+//                                    )
+//                                    
+//                                    // Notify the parent view about the update.
+//                                    onSave(updatedRule, appName)
+//                                    
+//                                }
+//                                
+//                                ToolbarItem(placement: .navigationBarTrailing){
+//                                    Button("Cancel") {
+//                                        // Dismiss the sheet by calling onSave with no changes
+//                                        onSave(editing.rule, editing.appKey) // You might choose not to call onSave on cancel
+//                                    }
+//                                    .padding(5)
+//                                    .foregroundColor(.red)
+//                                    .background(Color.gray.opacity(0.2))
+//                                    .cornerRadius(8)
+//                                }
+//                                
+//                            }
                         
                         HStack {
                             Button("Cancel") {
@@ -215,7 +258,7 @@ struct Customize: View {
                                 
                                 // Parse the wait time if necessary
                                 let computedWaitTime: Int? = newType == .wait ? parseWaitTime(timeWait) : nil
-
+                                
                                 // Create a new rule with the updated values.
                                 let updatedRule = RestrictionRule(
                                     appName: appName,
@@ -237,6 +280,7 @@ struct Customize: View {
                     }
                 }
             }
+        }
         }
         
         // You can include your parsing function here, or make it available globally.

@@ -133,26 +133,38 @@ struct Customize: View {
                         
                         VStack(alignment: .leading) {
                             Text("Threshold: \(Int(threshold))")
+                                .font(.headline)
                                 .foregroundColor(.white)
+                                .padding(0)
+
                             Slider(value: $threshold, in: 0...25, step: 1)
                                 .tint(.purple)
                         }
                         .padding()
+                        .background(Color.white.opacity(0.12))
+                        .cornerRadius(10)
 
-                        // Conditional fields based on type:
                         if selectedType == "Time" {
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text("Wait Time")
                                     .foregroundColor(.white)
-                                // For simplicity, use the same segmented control you had
+                                    .font(.headline)
+                                    .padding(.bottom, 10)
+                                VStack{
                                 Picker("Select Time", selection: $timeWait) {
                                     ForEach(["5s", "10s", "20s", "30s", "1m"], id: \.self) { time in
                                         Text(time).tag(time)
                                     }
                                 }
+                                .cornerRadius(10)
                                 .pickerStyle(.segmented)
+                                .tint(.white)
                             }
-                            .padding()
+                                .background(Color.white.opacity(0.5))
+                                .cornerRadius(10)
+                               
+                            }
+                            
                         } else if selectedType == "Math Question" {
                             VStack(alignment: .leading) {
                                 Text("Math Difficulty")

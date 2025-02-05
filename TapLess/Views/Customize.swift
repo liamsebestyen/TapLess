@@ -163,20 +163,28 @@ struct Customize: View {
                                 .background(Color.white.opacity(0.5))
                                 .cornerRadius(10)
                                
-                            }
+                            }.padding()
                             
                         } else if selectedType == "Math Question" {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Math Difficulty")
+                                Text("Math Question Difficulty")
                                     .foregroundColor(.white)
+                                    .font(.headline)
+                                    .padding()
+                                VStack{
                                 Picker("Difficulty", selection: $difficultyMathQuestion) {
                                     ForEach(questions, id: \.self) { question in
                                         Text(question)
                                     }
                                 }
                                 .pickerStyle(.segmented)
+                                .tint(.white)
+                                }
+                                .tint(.black)
+                                .background(Color.white.opacity(0.5))
+                                .cornerRadius(6)
                             }
-                            .padding()
+                            .cornerRadius(10)
                         }
                         
                         HStack {

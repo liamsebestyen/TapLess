@@ -166,7 +166,7 @@ struct Customize: View {
                             }
                             
                         } else if selectedType == "Math Question" {
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text("Math Difficulty")
                                     .foregroundColor(.white)
                                 Picker("Difficulty", selection: $difficultyMathQuestion) {

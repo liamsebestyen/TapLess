@@ -120,11 +120,15 @@ struct Customize: View {
                                     Text(option).tag(option)
                                 }
                             }
-                            .pickerStyle(.segmented)
+                                .cornerRadius(10)
+                                .accentColor(.white)
+                                .pickerStyle(.segmented)
+                                .tint(.white)
                         }
                         .padding()
-
-                        // Threshold slider (or use a TextField if you prefer)
+                        .background(Color.white.opacity(0.12))
+                        .cornerRadius(10)
+                        
                         VStack(alignment: .leading) {
                             Text("Threshold: \(Int(threshold))")
                                 .foregroundColor(.white)
@@ -384,7 +388,7 @@ struct Customize: View {
                                         ForEach(options, id: \.self) { option in
                                             Text(option).tag(option)
                                         }
-                                    }.cornerRadius(10)
+                                    } .cornerRadius(10)
                                         .accentColor(.white)
                                         .pickerStyle(.segmented)
                                         .tint(.white)

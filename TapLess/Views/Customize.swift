@@ -19,6 +19,7 @@ struct Customize: View {
     @State private var difficultyMathQuestion: String = "Easy"
     @State private var times: [String] = ["5s", "10s", "20s", "30s", "1m"]
     @State private var tester: Double = 0.5
+    @State private var expandedApps: Set <String> = []
 
     
     private let options: [String] = ["None", "Time", "Math Question"]
@@ -282,6 +283,8 @@ struct Customize: View {
                 } else {
                     ScrollView {
                         ForEach(createdRestrictions.keys.sorted(), id: \.self){ appName in
+                            
+        
                             Section(header: Text(appName)){
                                 ForEach(Array((createdRestrictions[appName] ?? []).enumerated()), id: \.element.id ){ index, restriction in
                                     restrictionItemView(restriction)
@@ -673,6 +676,14 @@ struct Customize: View {
             createdRestrictions[newAppKey, default: []].append(updatedRule)
         }
         saveRestrictions()
+    }
+    
+    private func toggleExpand(for appName:String){
+        if expandedApps.contains(appName){
+            expandedApps.remove(appName)
+        } else {
+            expandedApps.insert(appName)
+        }
     }
 
 

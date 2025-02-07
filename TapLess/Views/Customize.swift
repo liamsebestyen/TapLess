@@ -283,8 +283,24 @@ struct Customize: View {
                 } else {
                     ScrollView {
                         ForEach(createdRestrictions.keys.sorted(), id: \.self){ appName in
+                            HStack{
+                                Text(appName)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                Spacer()
+                                
+                                Image(systemName: "chevron.right")
+                                    .rotationEffect(expandedApps.contains(appName) ? .degrees(90) : .degrees(0))
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                toggleExpand(for: appName)
+                            }
                             
-        
+                            
+                            
                             Section(header: Text(appName)){
                                 ForEach(Array((createdRestrictions[appName] ?? []).enumerated()), id: \.element.id ){ index, restriction in
                                     restrictionItemView(restriction)

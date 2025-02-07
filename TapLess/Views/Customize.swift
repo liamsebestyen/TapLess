@@ -196,46 +196,7 @@ struct Customize: View {
                             .cornerRadius(10)
                         }
                         
-//                            .toolbar{
-//                                
-//                                ToolbarItem(placement: .navigationBarLeading){
-//                                    // Map string to restriction type
-//                                    let newType: RestrictionType
-//                                    switch selectedType {
-//                                    case "Time": newType = .wait
-//                                    case "Math Question": newType = .mathQuestion
-//                                    default: newType = .none
-//                                    }
-//                                    
-//                                    // Parse the wait time if necessary
-//                                    let computedWaitTime: Int? = newType == .wait ? parseWaitTime(timeWait) : nil
-//                                    
-//                                    // Create a new rule with the updated values.
-//                                    let updatedRule = RestrictionRule(
-//                                        appName: appName,
-//                                        restrictionType: newType,
-//                                        threshold: Int(threshold),
-//                                        waitTime: computedWaitTime,
-//                                        mathQuestionDifficulty: newType == .mathQuestion ? difficultyMathQuestion : nil
-//                                    )
-//                                    
-//                                    // Notify the parent view about the update.
-//                                    onSave(updatedRule, appName)
-//                                    
-//                                }
-//                                
-//                                ToolbarItem(placement: .navigationBarTrailing){
-//                                    Button("Cancel") {
-//                                        // Dismiss the sheet by calling onSave with no changes
-//                                        onSave(editing.rule, editing.appKey) // You might choose not to call onSave on cancel
-//                                    }
-//                                    .padding(5)
-//                                    .foregroundColor(.red)
-//                                    .background(Color.gray.opacity(0.2))
-//                                    .cornerRadius(8)
-//                                }
-//                                
-//                            }
+                        
                         
                         HStack {
                             Button("Cancel") {
@@ -716,60 +677,6 @@ struct Customize: View {
 
 
             }
-//            .sheet(isPresented: $showCustomize) {
-//                ZStack {
-//                    purpleGradient
-//                    
-//                    NavigationView {
-//                        ZStack {
-//                           purpleGradient
-//                            
-//                            Form {
-//                                if selectedType == "Time" {
-//                                    Section(header: Text("Wait Duration").foregroundColor(.white)) {
-//                                        Picker("Select Time", selection: $timeWait) {
-//                                            ForEach(times, id: \.self) { time in
-//                                                Text(time).tag(time)
-//                                            }
-//                                        }
-//                                        .pickerStyle(.segmented)
-//                                        .tint(.purple)
-//                                    }
-//                                } else if selectedType == "Math Question" {
-//                                    Section(header: Text("Math Difficulty").foregroundColor(.white)) {
-//                                        Picker("Difficulty", selection: $difficultyMathQuestion) {
-//                                            ForEach(questions, id: \.self) { question in
-//                                                Text(question)
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            .scrollContentBackground(.hidden)
-//                            .background(Color.clear)
-//                        }
-//                        .navigationTitle("Customize Restrictions")
-//                        .toolbar {
-//                            ToolbarItem(placement: .cancellationAction) {
-//                                Button("Cancel") {
-//                                    showCustomize = false
-//                                }
-//                                .tint(.red)
-//                            }
-//                            ToolbarItem(placement: .confirmationAction) {
-//                                Button("Confirm") {
-//                                    showCustomize = false
-//                                }
-//                                .tint(.green)
-//                            }
-//                        }
-//                    }
-//                    .background(Color.clear)
-//                }
-//            }
-//        }
-//    }
-
 
 #Preview {
     Customize()

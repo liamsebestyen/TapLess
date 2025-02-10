@@ -301,15 +301,18 @@ struct Customize: View {
                             
                             
                             if (expandedApps.contains(appName)){
+                                VStack{
                                 ForEach(Array((createdRestrictions[appName] ?? [])
                                     .sorted{$0.threshold < $1.threshold}
                                     .enumerated()), id: \.element.id ){ index, restriction in
-                                    restrictionItemView(restriction)
-                                        .onTapGesture{
-                                            editingRestriction = (appKey: appName, index: index, rule: restriction)
-                                        }
-                                    
-                                }
+                                        restrictionItemView(restriction)
+                                            .onTapGesture{
+                                                editingRestriction = (appKey: appName, index: index, rule: restriction)
+                                            }
+                                        
+                                    }
+                                }.transition(.slide)
+                                   
                                 
                                 
                             

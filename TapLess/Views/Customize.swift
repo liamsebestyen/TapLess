@@ -300,8 +300,8 @@ struct Customize: View {
                             }
                             
                             
+                            if (expandedApps.contains(appName)){
                             
-                            Section(header: Text(appName)){
                                 ForEach(Array((createdRestrictions[appName] ?? []).enumerated()), id: \.element.id ){ index, restriction in
                                     restrictionItemView(restriction)
                                         .onTapGesture{
@@ -311,7 +311,8 @@ struct Customize: View {
                                 }
                                 
                                 
-                            }
+                            
+                        }
                         }
                     }
                 }
@@ -591,14 +592,14 @@ struct Customize: View {
     private func restrictionItemView(_ rule: RestrictionRule) -> some View {
         VStack(alignment: .leading, spacing: 8) {
                 // App Name
-                Text(rule.appName ?? "Unknown App")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
+//                Text(rule.appName ?? "Unknown App")
+//                    .font(.title3)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.white)
 
                 // Restriction Type + Threshold
                 HStack {
-                    Text("Type: \(rule.restrictionType.rawValue.capitalized)")
+                    Text("Restriction Type: \(rule.restrictionType.rawValue.capitalized)")
                         .foregroundColor(.white.opacity(0.8))
                     Spacer()
                     Text("Threshold: \(rule.threshold)")

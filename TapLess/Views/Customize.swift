@@ -633,7 +633,7 @@ struct Customize: View {
                     Text("No Additional Restriction")
                         .foregroundColor(.white.opacity(0.4))
                 }
-        }
+        }.frame(maxWidth: .infinity)
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)

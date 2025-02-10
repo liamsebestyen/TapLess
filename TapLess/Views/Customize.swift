@@ -609,6 +609,7 @@ struct Customize: View {
                     Text("Access Threshold:")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                Spacer()
                 Text(" \(rule.threshold)")
                     .foregroundColor(.white.opacity(0.8))
 

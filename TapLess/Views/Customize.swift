@@ -598,13 +598,13 @@ struct Customize: View {
 //                    .foregroundColor(.white)
 
                 // Restriction Type + Threshold
-            HStack {
-                Text("Restriction Type:")
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                Text(" \(rule.restrictionType.rawValue.capitalized)")
-                    .foregroundColor(.white.opacity(0.8))
-            }
+//            HStack {
+//                Text("Restriction Type:")
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.white)
+//                Text(" \(rule.restrictionType.rawValue.capitalized)")
+//                    .foregroundColor(.white.opacity(0.8))
+//            }
             HStack{
                     Text("Access Threshold:")
                         .fontWeight(.bold)

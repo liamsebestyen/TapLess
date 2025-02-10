@@ -598,22 +598,33 @@ struct Customize: View {
 //                    .foregroundColor(.white)
 
                 // Restriction Type + Threshold
-                HStack {
-                    Text("Restriction Type: \(rule.restrictionType.rawValue.capitalized)")
-                        .foregroundColor(.white.opacity(0.8))
-                    Spacer()
-                    Text("Threshold: \(rule.threshold)")
-                        .foregroundColor(.white.opacity(0.8))
-                }
+            HStack {
+                Text("Restriction Type:")
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                Spacer()
+                Text(" \(rule.restrictionType.rawValue.capitalized)")
+                    .foregroundColor(.white.opacity(0.8))
+            }
+            HStack{
+                    Text("Access Threshold: \(rule.threshold)")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+        }
 
                 // Wait time or math difficulty
+            HStack {
+                Text("Task: ")
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+            }
                 if rule.restrictionType == .wait {
                     let waitTime = rule.waitTime ?? 0
-                    Text("Wait Time: \(waitTime) seconds")
+                    Text("Wait for \(waitTime) seconds")
                         .foregroundColor(.white.opacity(0.8))
                 } else if rule.restrictionType == .mathQuestion {
                     let diff = rule.mathQuestionDifficulty ?? "N/A"
-                    Text("Math Difficulty: \(diff)")
+                    Text("Solve an \(diff) level difficulty math question")
                         .foregroundColor(.white.opacity(0.8))
                 } else {
                     Text("No Additional Restriction")

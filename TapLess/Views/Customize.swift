@@ -306,6 +306,12 @@ struct Customize: View {
                                     .sorted{$0.threshold < $1.threshold}
                                     .enumerated()), id: \.element.id ){ index, restriction in
                                         restrictionItemView(restriction)
+//                                            .contextMenu {
+//                                                Button(role: .destructive){
+//                                                    deleteRestriction(appKey: appName, Index: index, rule: restriction)
+//                                                }
+//                                                
+//                                            }
                                             .onTapGesture{
                                                 editingRestriction = (appKey: appName, index: index, rule: restriction)
                                             }

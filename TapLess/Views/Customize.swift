@@ -311,7 +311,7 @@ struct Customize: View {
                                             }
                                         
                                     }
-                                }.transition(.slide)
+                                }.transition(.move(edge: .leading))
                                    
                                 
                                 
@@ -709,6 +709,14 @@ struct Customize: View {
                 createdRestrictions.removeValue(forKey: original.appKey)
             }
             createdRestrictions[newAppKey, default: []].append(updatedRule)
+        }
+        saveRestrictions()
+    }
+    
+    private func deleteRestriction ( appKey: String, Index: Int, rule: RestrictionRule){
+        createdRestrictions[appKey]?.remove(at: Index)
+        if createdRestrictions[appKey]?.isEmpty == true {
+            createdRestrictions.removeValue(forKey: appKey)
         }
         saveRestrictions()
     }

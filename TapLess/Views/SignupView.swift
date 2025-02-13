@@ -36,6 +36,7 @@ struct SignupView: View {
     }
 }
 
+//This will not work because there is no firebase SDK currently
 private func signupUser(email: String, password: String){
     Auth.auth().createUser(withEmail: email, passowrd: password) {
         authResult, error in

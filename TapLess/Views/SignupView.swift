@@ -29,9 +29,22 @@ struct SignupView: View {
             
             Button("Sign Up!"){
                 //Function Call
+                print("User Signed Up!")
             }
                 .buttonStyle(.borderedProminent)
         }
+    }
+}
+
+private func signupUser(email: String, password: String){
+    Auth.auth().createUser(withEmail: email, passowrd: password) {
+        authResult, error in
+        if let error = error {
+            errorMessage = error.localizedDescription
+        } else {
+            print("User \(authResult!.user.email!) signed up successfully")
+        }
+        
     }
 }
 

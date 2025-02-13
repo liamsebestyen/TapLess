@@ -46,6 +46,7 @@ struct WelcomeView: View {
                         .padding(.horizontal, 30)
                     
                     NavigationLink(destination: DashboardView()) {
+                        //Remember to make this go to loginView in future
                         Text("Get Started!")
                             .font(.title2)
                             .bold()

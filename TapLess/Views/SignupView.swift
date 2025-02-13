@@ -6,10 +6,19 @@
 //
 
 import SwiftUI
+//import FirebaseAuth
 
 struct SignupView: View {
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var confirmPassword: String = ""
+    @State private var error: String?
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            TextField("Email:", text: $email).autocorrectionDisabled(true)
+                .textInputAutocapitalization(.never)
+        }
     }
 }
 

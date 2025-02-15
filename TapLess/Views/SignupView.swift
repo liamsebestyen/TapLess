@@ -9,7 +9,7 @@ import SwiftUI
 //import FirebaseAuth
 
 //Got to use default firebase page really.
-\
+//im on a plane!
 
 struct SignupView: View {
     @State private var email: String = ""

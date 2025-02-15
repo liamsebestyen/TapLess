@@ -8,6 +8,9 @@
 import SwiftUI
 //import FirebaseAuth
 
+//Got to use default firebase page really.
+\
+
 struct SignupView: View {
     @State private var email: String = ""
     @State private var password: String = ""

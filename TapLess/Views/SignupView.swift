@@ -7,6 +7,7 @@
 
 import SwiftUI
 //import FirebaseAuth
+//Daily commit
 
 //Got to use default firebase page really.
 //im on a plane!

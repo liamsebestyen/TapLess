@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8795F0082D62BE9000E50BDF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8795F0072D62BE9000E50BDF /* FirebaseAnalytics */; };
+		8795F02B2D62C23A00E50BDF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8795F02A2D62C23A00E50BDF /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8795F0082D62BE9000E50BDF /* FirebaseAnalytics in Frameworks */,
+				8795F02B2D62C23A00E50BDF /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,7 @@
 			name = TapLess;
 			packageProductDependencies = (
 				8795F0072D62BE9000E50BDF /* FirebaseAnalytics */,
+				8795F02A2D62C23A00E50BDF /* FirebaseAuth */,
 			);
 			productName = TapLess;
 			productReference = 871BC4D92D29E03600D45C58 /* TapLess.app */;
@@ -578,6 +581,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		8795F02A2D62C23A00E50BDF /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

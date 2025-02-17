@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8795F0082D62BE9000E50BDF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8795F0072D62BE9000E50BDF /* FirebaseAnalytics */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		871BC4EA2D29E03700D45C58 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8795F0082D62BE9000E50BDF /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = TapLess;
 			packageProductDependencies = (
+				8795F0072D62BE9000E50BDF /* FirebaseAnalytics */,
 			);
 			productName = TapLess;
 			productReference = 871BC4D92D29E03600D45C58 /* TapLess.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 871BC4D02D29E03600D45C58;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 871BC4DA2D29E03600D45C58 /* Products */;
 			projectDirPath = "";
@@ -552,6 +561,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8795F0072D62BE9000E50BDF /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 871BC4D12D29E03600D45C58 /* Project object */;
 }

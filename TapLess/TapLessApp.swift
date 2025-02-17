@@ -17,8 +17,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct TapLessApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // register delegate for firebase set up
     var body: some Scene {
         WindowGroup {
             WelcomeView()

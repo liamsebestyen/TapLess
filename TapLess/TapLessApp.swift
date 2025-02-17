@@ -17,6 +17,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct TapLessApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
             WelcomeView()

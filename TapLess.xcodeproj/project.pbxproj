@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87678F052D64E55E0096A9DB /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 87678F042D64E55E0096A9DB /* FirebaseAuthCombine-Community */; };
+		87678F072D64E7290096A9DB /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 87678F062D64E7290096A9DB /* FirebaseCore */; };
 		8795F0082D62BE9000E50BDF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8795F0072D62BE9000E50BDF /* FirebaseAnalytics */; };
 		8795F02B2D62C23A00E50BDF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8795F02A2D62C23A00E50BDF /* FirebaseAuth */; };
 /* End PBXBuildFile section */
@@ -58,6 +60,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8795F0082D62BE9000E50BDF /* FirebaseAnalytics in Frameworks */,
+				87678F052D64E55E0096A9DB /* FirebaseAuthCombine-Community in Frameworks */,
+				87678F072D64E7290096A9DB /* FirebaseCore in Frameworks */,
 				8795F02B2D62C23A00E50BDF /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +125,8 @@
 			packageProductDependencies = (
 				8795F0072D62BE9000E50BDF /* FirebaseAnalytics */,
 				8795F02A2D62C23A00E50BDF /* FirebaseAuth */,
+				87678F042D64E55E0096A9DB /* FirebaseAuthCombine-Community */,
+				87678F062D64E7290096A9DB /* FirebaseCore */,
 			);
 			productName = TapLess;
 			productReference = 871BC4D92D29E03600D45C58 /* TapLess.app */;
@@ -577,6 +583,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		87678F042D64E55E0096A9DB /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		87678F062D64E7290096A9DB /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseCore;
+		};
 		8795F0072D62BE9000E50BDF /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8795F0062D62BE9000E50BDF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -10,6 +10,7 @@ import FirebaseCore
 import FirebaseAuth
 
 //Works?
+//Work on this today
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,

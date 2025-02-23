@@ -16,10 +16,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     FirebaseApp.configure() //configure firebase
-    return true
+    return true //What am i doing lol
   }
 }
 
+//Here the app starts
 @main
 struct TapLessApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // register delegate for firebase set up

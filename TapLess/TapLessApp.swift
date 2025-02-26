@@ -6,24 +6,27 @@
 //
 
 import SwiftUI
-import FirebaseCore
-import FirebaseAuth
-
+import Firebase
 //Works?
 //Work on this today
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure() //configure firebase
-    return true //What am i doing lol
-  }
-}
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//  func application(_ application: UIApplication,
+//                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//    FirebaseApp.configure() //configure firebase
+//    return true //What am i doing lol
+//  }
+//}
+
 
 //Here the app starts
 @main
 struct TapLessApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // register delegate for firebase set up
+    
+    init(){
+        FirebaseApp.configure()
+        print("Firebase configured!")
+    }
     var body: some Scene {
         WindowGroup {
             WelcomeView()

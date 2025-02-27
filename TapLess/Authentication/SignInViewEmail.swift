@@ -10,7 +10,29 @@ import SwiftUI
 final class SignInEmailViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
-}
+    
+    func signIn ()  {
+        guard !email.isEmpty, !password.isEmpty  else {
+            print("No email or password found")
+            //Future could add more restrictions to passwords.
+            return }
+        
+        Task {
+            do {
+                let returnedUser = try await AuthenticationManager.shared.createUser(email: email, password: password)
+                print("Success")
+                print(returnedUser)
+            } catch {
+                print("error:  \(error)")
+                //Should communicate this with user.
+            }
+        }
+        
+        
+        
+        }
+    }
+
 
 struct SignInViewEmail: View {
     @State private var viewModel = SignInEmailViewModel()
@@ -29,7 +51,7 @@ struct SignInViewEmail: View {
             
             
             Button {
-                
+                viewModel.signIn()
             } label: {
                 Text("Sign In with Email")
                     .font(.headline)

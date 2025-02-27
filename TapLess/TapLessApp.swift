@@ -29,7 +29,10 @@ struct TapLessApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            NavigationStack {
+                RootView()
+            }
+//            WelcomeView()
 //            ContentView()
         }
     }

@@ -31,7 +31,7 @@ final class AuthenticationManager {
     //Singleton design pattern which is bad for scalability, many limitations with testing and with dependencies (confused from video).
     //He has a video for this with dependency injection later for the advanced videos.
     //Probably not best method for production apps.
-    
+    @discardableResult 
     func createUser(email: String, password: String) async throws -> AuthDataResultModel {
         let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
         //        let result = AuthDataResultModel(

@@ -11,32 +11,34 @@ final class SignInEmailViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     
-    func signIn ()  {
+    func signIn ()  async throws {
         guard !email.isEmpty, !password.isEmpty  else {
             print("No email or password found")
             //Future could add more restrictions to passwords.
             return }
-        
-        Task {
-            do {
                 let returnedUser = try await AuthenticationManager.shared.createUser(email: email, password: password)
                 print("Success")
                 print(returnedUser)
-            } catch {
-                print("error:  \(error)")
                 //Should communicate this with user.
-            }
         }
-        
-        
-        
-        }
+
+func signUp ()  async throws {
+    guard !email.isEmpty, !password.isEmpty  else {
+        print("No email or password found")
+        //Future could add more restrictions to passwords.
+        return }
+            let returnedUser = try await AuthenticationManager.shared.signInUser(email: email, password: password)
+            print("Success")
+            print(returnedUser)
+            //Should communicate this with user.
     }
+}
 
 
 struct SignInViewEmail: View {
     @State private var viewModel = SignInEmailViewModel()
-    
+    @Binding var showSignInView: Bool
+
     var body: some View {
         VStack{
             TextField("Email ...", text: $viewModel.email)
@@ -49,9 +51,27 @@ struct SignInViewEmail: View {
                 .background(Color.gray.opacity(0.4))
                 .cornerRadius(10)
             
-            
             Button {
-                viewModel.signIn()
+                Task {
+                    do {
+                        try await viewModel.signUp()
+                        //No error with this function so the user is signedIn
+                        showSignInView = false
+                        return
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                    
+                    do {
+                        try await viewModel.signIn()
+                        showSignInView = false
+                        return
+                    } catch {
+                        print("Error: \(error)")
+                        
+                    }
+                    
+                }
             } label: {
                 Text("Sign In with Email")
                     .font(.headline)
@@ -70,6 +90,6 @@ struct SignInViewEmail: View {
 
 #Preview {
     NavigationStack{
-        SignInViewEmail()
+        SignInViewEmail(showSignInView: .constant(false))
     }
 }

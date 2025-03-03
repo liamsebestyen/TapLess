@@ -7,50 +7,19 @@
 
 import SwiftUI
 import AuthenticationServices
+import CryptoKit
 
-struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
-    
-    let type: ASAuthorizationAppleIDButton.ButtonType
-    let style: ASAuthorizationAppleIDButton.Style
-    
-    func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
-        return ASAuthorizationAppleIDButton(authorizationButtonType: type, authorizationButtonStyle: style)
-    }
-    
-    func updateUIView(_ uiView:  ASAuthorizationAppleIDButton, context: Context) {
-        
-    }
-    
-}
 
 @MainActor
-final class AuthenticationViewModel: ObservableObject {
-    func signInApple() async throws {
-        
-    }
+final class AuthenticationViewModel:  ObservableObject {
+    let signInAppleHelper = SignInAppleHelper()
+
     
-    private func randomNonceString(length: Int = 32) -> String {
-      precondition(length > 0)
-      var randomBytes = [UInt8](repeating: 0, count: length)
-      let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
-      if errorCode != errSecSuccess {
-        fatalError(
-          "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
-        )
-      }
-
-      let charset: [Character] =
-        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-
-      let nonce = randomBytes.map { byte in
-        // Pick a random character from the set, wrapping around if needed.
-        charset[Int(byte) % charset.count]
-      }
-
-      return String(nonce)
+    func signInApple() async throws {
+        let helper = signInAppleHelper()
+        let tokens = try await helper.startSignInWithAppleFlow()
+        try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
     }
-
-        
 }
 
 
@@ -76,6 +45,7 @@ struct AuthenticationView: View {
                 do {
                     try await viewModel.signInApple()
                     showSignInView = false
+                    
                 } catch {
                     print(error)
                 }
@@ -83,7 +53,11 @@ struct AuthenticationView: View {
             }, label: {
                 SignInWithAppleButtonViewRepresentable(type: .default, style: .black)
                     .allowsHitTesting(false)
-            }).frame(height: 55)
+            })
+            .frame(height: 55)
+           
+    
+            
 
             
             Spacer()

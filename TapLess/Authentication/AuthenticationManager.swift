@@ -86,3 +86,19 @@ final class AuthenticationManager {
         //May be removed for future release
 }
 }
+
+extension AuthenticationManager {
+    func signIn (crendetial: AuthCredential) async throws -> AuthDataResultModel {
+        let authDataResult = try await Auth.auth().signIn(with: crendetial)
+        return AuthDataResultModel(user: authDataResult.user)
+    }
+    
+    func signInWithApple(tokens: signInWithAppleResult) async throws -> AuthDataResultModel {
+        let credential = OAuthProvider.credential(
+          withProviderID: "apple.com",
+          idToken: tokens.token,
+          rawNonce: tokens.nonce
+        )
+        return try await signIn(crendetial: credential)
+    }
+}

@@ -6,6 +6,30 @@
 //
 
 import SwiftUI
+import AuthenticationServices
+
+struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
+    
+    let type: ASAuthorizationAppleIDButton.ButtonType
+    let style: ASAuthorizationAppleIDButton.Style
+    
+    func makeUIView(context: Context) -> ASAuthorizationAppleIDButton {
+        return ASAuthorizationAppleIDButton(authorizationButtonType: type, authorizationButtonStyle: style)
+    }
+    
+    func updateUIView(_ uiView:  ASAuthorizationAppleIDButton, context: Context) {
+        
+    }
+    
+}
+
+@MainActor
+final class AuthenticationViewModel: ObservableObject {
+    func signInApple() async throws {
+        
+    }
+}
+
 
 struct AuthenticationView: View {
     @Binding var showSignInView: Bool
@@ -22,6 +46,23 @@ struct AuthenticationView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
             }
+            
+          
+            
+            Button(action: {
+                do {
+                    try await viewModel.signInApple()
+                    showSignInView = false
+                } catch {
+                    print(error)
+                }
+                
+            }, label: {
+                SignInWithAppleButtonViewRepresentable(type: .default, style: .black)
+                    .allowsHitTesting(false)
+            }).frame(height: 55)
+
+            
             Spacer()
         }
         .padding()

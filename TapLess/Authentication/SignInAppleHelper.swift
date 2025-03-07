@@ -105,6 +105,7 @@ struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
           }.joined()
 
           return hashString
+            //Habit
         }
         
         

@@ -82,8 +82,7 @@ final class AuthenticationManager {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
         }
-        try await user.updateEmail(to: email)
-        //May be removed for future release
+        try await user.sendEmailVerification()
 }
 }
 

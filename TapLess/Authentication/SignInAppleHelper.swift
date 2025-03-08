@@ -11,13 +11,7 @@ import AuthenticationServices
 import CryptoKit
 
 
-struct signInWithAppleResult {
-    let token: String
-    let nonce: String
-    let name: String?
-    let email: String?
-    
-}
+
 
 struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
     
@@ -31,19 +25,28 @@ struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
     func updateUIView(_ uiView:  ASAuthorizationAppleIDButton, context: Context) {
         
     }
+}
+    struct signInWithAppleResult {
+        let token: String
+        let nonce: String
+        let name: String?
+        let email: String?
+        
+    }
+
     @MainActor
     final class SignInAppleHelper: NSObject {
         private var currentNonce: String?
         private var completionHandler: ((Result<signInWithAppleResult, Error>) -> Void)? = nil
-
+        
         func startSignInWithAppleFlow() async throws -> signInWithAppleResult {
-           try await withCheckedThrowingContinuation{ continuation in
+            try await withCheckedThrowingContinuation{ continuation in
                 self.startSignInWithAppleFlow { result in
                     switch result {
                     case .success(let signInAppleResult):
                         continuation.resume(returning: signInAppleResult)
-                        result
-                    case .failure(let error)
+                        return
+                    case .failure(let error):
                         continuation.resume(throwing: error)
                         return
                     }
@@ -52,63 +55,63 @@ struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
             }
         }
         
-        @available(iOS 13, *)
         func startSignInWithAppleFlow(completion: @escaping (Result<signInWithAppleResult, Error>) -> Void) {
             
-            guard let topVC = Utilities.shared.topViewController else {
+            guard let topVC = Utilities.shared.topViewController() else {
                 completion(.failure(URLError(.badURL)))
                 return
-                }
-          let nonce = randomNonceString()
-          currentNonce = nonce
+            }
+            let nonce = randomNonceString()
+            currentNonce = nonce
             completionHandler = completion
-          let appleIDProvider = ASAuthorizationAppleIDProvider()
-          let request = appleIDProvider.createRequest()
-          request.requestedScopes = [.fullName, .email]
-          request.nonce = sha256(nonce)
-
-          let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-          authorizationController.delegate = self
-          authorizationController.presentationContextProvider = topVC
-          authorizationController.performRequests()
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            request.requestedScopes = [.fullName, .email]
+            request.nonce = sha256(nonce)
+            
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = topVC
+            authorizationController.performRequests()
         }
         
         private func randomNonceString(length: Int = 32) -> String {
-          precondition(length > 0)
-          var randomBytes = [UInt8](repeating: 0, count: length)
-          let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
-          if errorCode != errSecSuccess {
-            fatalError(
-              "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
-            )
-          }
-
-          let charset: [Character] =
+            precondition(length > 0)
+            var randomBytes = [UInt8](repeating: 0, count: length)
+            let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+            if errorCode != errSecSuccess {
+                fatalError(
+                    "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
+                )
+            }
+            
+            let charset: [Character] =
             Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-
-          let nonce = randomBytes.map { byte in
-            // Pick a random character from the set, wrapping around if needed.
-            charset[Int(byte) % charset.count]
-          }
-
-          return String(nonce)
+            
+            let nonce = randomBytes.map { byte in
+                // Pick a random character from the set, wrapping around if needed.
+                charset[Int(byte) % charset.count]
+            }
+            
+            return String(nonce)
         }
         
         
         
         @available(iOS 13, *)
         private func sha256(_ input: String) -> String {
-          let inputData = Data(input.utf8)
-          let hashedData = SHA256.hash(data: inputData)
-          let hashString = hashedData.compactMap {
-            String(format: "%02x", $0)
-          }.joined()
-
-          return hashString
+            let inputData = Data(input.utf8)
+            let hashedData = SHA256.hash(data: inputData)
+            let hashString = hashedData.compactMap {
+                String(format: "%02x", $0)
+            }.joined()
+            
+            return hashString
             //Habit
         }
         
-        
+    }
+
         @available(iOS 13.0, *)
         extension SignInAppleHelper: ASAuthorizationControllerDelegate {
 
@@ -116,7 +119,7 @@ struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
               guard
                 let appleIdCredential = authorization.credential as? ASAuthorizationAppleIDCredential, let appleIdToken = appleIdCredential.identityToken, let idTokenString = String(data: appleIdToken, encoding: .utf8), let nonce = currentNonce else {
                   print("error")
-                  completionHandler(.failure.URLError(.badServerResponse))
+                  completionHandler?(.failure(URLError(.badServerResponse)))
                   return
               }
               let name = appleIdCredential.fullName?.givenName ?? ""
@@ -132,7 +135,7 @@ struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
           func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
             // Handle error.
             print("Sign in with Apple errored: \(error)")
-              completionHandler(.failure(URLError(.cannotFindHost))
+              completionHandler?(.failure(URLError(.cannotFindHost)))
 
           }
 
@@ -144,7 +147,3 @@ struct SignInWithAppleButtonViewRepresentable: UIViewRepresentable {
                 }
                 
             }
-
-    }
-    
-}

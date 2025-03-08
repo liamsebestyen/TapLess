@@ -77,7 +77,7 @@ final class AuthenticationManager {
         
 }
 
-    func updateEmail(email: String) async  throws {
+    func updateEmail() async  throws {
 
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)

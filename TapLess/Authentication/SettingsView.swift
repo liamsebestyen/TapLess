@@ -31,8 +31,7 @@ final class SettingsViewModel: ObservableObject {
         
         
         func updateEmail() async throws {
-            let email = "hello@world.com"
-             try await AuthenticationManager.shared.updateEmail(email: email )
+             try await AuthenticationManager.shared.updateEmail()
         }
     }
 

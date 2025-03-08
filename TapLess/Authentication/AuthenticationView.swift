@@ -10,21 +10,12 @@ import AuthenticationServices
 import CryptoKit
 
 
-@MainActor
-final class AuthenticationViewModel:  ObservableObject {
+struct AuthenticationView: View {
+    @StateObject private var viewModel = AuthenticationViewModel()
+    @Binding var showSignInView: Bool
+    
     let signInAppleHelper = SignInAppleHelper()
 
-    
-    func signInApple() async throws {
-        let helper = signInAppleHelper()
-        let tokens = try await helper.startSignInWithAppleFlow()
-        try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
-    }
-}
-
-
-struct AuthenticationView: View {
-    @Binding var showSignInView: Bool
     var body: some View {
         VStack{
             NavigationLink{
@@ -42,13 +33,15 @@ struct AuthenticationView: View {
           
             
             Button(action: {
-                do {
+                Task {
+                    do {
                     try await viewModel.signInApple()
                     showSignInView = false
                     
                 } catch {
                     print(error)
                 }
+            }
                 
             }, label: {
                 SignInWithAppleButtonViewRepresentable(type: .default, style: .black)

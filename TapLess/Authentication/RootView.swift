@@ -28,6 +28,7 @@ struct RootView: View {
                 AuthenticationView(showSignInView: $showSignInView)
             }
         }
+        //I expect myself to do far too much most days.
     }
 }
 #Preview {

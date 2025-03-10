@@ -38,6 +38,8 @@ final class SettingsViewModel: ObservableObject {
 struct SettingsView: View {
     @StateObject private var viewModel =  SettingsViewModel()
     @Binding var showSignInView: Bool
+    @State private var showingAlert = false
+
     var body: some View {
         NavigationStack{
             List {
@@ -51,9 +53,7 @@ struct SettingsView: View {
                             //Eventually show this to the user.
                         }
                     }
-                    
                 }
-                
                 Section{
                     Button ("Reset Password"){
                         Task {
@@ -69,20 +69,21 @@ struct SettingsView: View {
                         }
                     }
                     
-                    Button ("Update Password"){
-                        Task {
-                            do {
-                                try await viewModel.updatePassword()
-                                print("Password RESET sent!")
-                                //Eventually show this to the user.
-                                
-                            } catch {
-                                print(error)
-                                //Eventually show this to the user.
-                                //I plan on using reset email to do this.
-                            }
-                        }
-                    }
+//                    Button ("Update Password"){
+//                        Task {
+//                            do {
+//                                try await viewModel.updatePassword()
+//                                print("Password RESET sent!")
+//                                //Eventually show this to the user.
+//                                
+//                            } catch {
+//                                print(error)
+//                                //Eventually show this to the user.
+//                                //I plan on using reset email to do this.
+//                            }
+//                        }
+//                    }
+                    //Remove this temporarily
                     
                     Button ("Update Email"){
                         Task {
